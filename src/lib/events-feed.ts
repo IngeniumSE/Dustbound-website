@@ -83,9 +83,16 @@ export function toDisplayEvent(event: FeedEvent, now = new Date()): DisplayEvent
   };
 }
 
-/** Active + upcoming only, soonest first — mirrors app Events list. */
+/** Drop feed items that would put Fortnite / Override marks on the marketing site. */
+export function isMarketingSafeEvent(event: FeedEvent): boolean {
+  const blob = `${event.title}\n${event.summary ?? ''}`;
+  return !/\bFortnite\b/i.test(blob) && !/\bOverride\b/i.test(blob);
+}
+
+/** Active + upcoming only, soonest first — mirrors app Events list (marketing-safe). */
 export function selectLiveEvents(events: FeedEvent[], now = new Date()): DisplayEvent[] {
   return events
+    .filter(isMarketingSafeEvent)
     .map((e) => toDisplayEvent(e, now))
     .filter((e) => e.phase === 'active' || e.phase === 'upcoming')
     .sort((a, b) => a.startUtc.getTime() - b.startUtc.getTime() || a.id.localeCompare(b.id));

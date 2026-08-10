@@ -75,9 +75,10 @@ assert.equal(countTag(cookies, 'header'), 1, 'cookies: exactly one <header>');
 assert.match(cookies, /does not set first-party cookies/i, 'cookies: no first-party');
 assert.match(cookies, /does not use analytics/i, 'cookies: no analytics');
 
-// Branding: no Fortnite/Override product marks in hero (disclaimer may name Epic for clarity)
+// Branding: no Fortnite/Override product marks on the landing (disclaimer may name Epic)
 const hero = index.match(/data-testid="hero"[\s\S]*?<\/header>/i)?.[0] ?? '';
 assert.doesNotMatch(hero, /Fortnite|Override/i, 'hero: no Fortnite/Override marks');
+assert.doesNotMatch(index, /Fortnite|Override/i, 'landing: no Fortnite/Override marks (incl. Events)');
 assert.match(index, /not affiliated with[\s\S]*Epic Games/i, 'landing: unofficial Epic disclaimer');
 
 console.log('verify-site: ok');
