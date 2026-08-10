@@ -6,14 +6,57 @@ import appIcon from '../assets/brand/app-icon.png';
 interface Props {
   title?: string;
   description?: string;
+  /** Override the default social share image (absolute or site-relative path). */
+  image?: string;
+  /** Extra JSON-LD objects merged into the page graph (WebSite is always included). */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
   title = 'Dustbound',
-  description = 'Local checklist for Sprite collectibles — track Collected and Mastered offline.',
+  description = 'Local checklist for Sprite collectibles — track Collected and Mastered offline on Android.',
+  image = '/og.jpg',
+  schema,
 } = Astro.props;
 
+const siteDescription =
+  'Local checklist for Sprite collectibles — track Collected and Mastered offline on Android.';
+
+const pageTitle =
+  title === 'Dustbound'
+    ? 'Dustbound — Offline Sprite Collectibles Checklist'
+    : `${title} · Dustbound`;
+
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const ogImageAlt = 'Dustbound — local checklist for Sprite collectibles';
+const siteOrigin = Astro.site ?? new URL('https://dustbound.app');
+
+const websiteSchema = {
+  '@type': 'WebSite',
+  '@id': `${siteOrigin.href}#website`,
+  name: 'Dustbound',
+  url: siteOrigin.href,
+  description: siteDescription,
+  inLanguage: 'en',
+  publisher: { '@id': `${siteOrigin.href}#organization` },
+};
+
+const organizationSchema = {
+  '@type': 'Organization',
+  '@id': `${siteOrigin.href}#organization`,
+  name: 'Ingenium Software Engineering',
+  url: siteOrigin.href,
+  logo: new URL('/favicon.png', siteOrigin).href,
+  email: 'support@ingeniumsoftware.dev',
+};
+
+const extraSchema = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [organizationSchema, websiteSchema, ...extraSchema],
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -21,15 +64,47 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#0a1a14" />
+    <meta name="color-scheme" content="dark" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta property="og:title" content={title === 'Dustbound' ? title : `${title} · Dustbound`} />
-    <meta property="og:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- Open Graph (Facebook, LinkedIn, Discord, Slack, etc.) -->
+    <meta property="og:site_name" content="Dustbound" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
-    <title>{title === 'Dustbound' ? title : `${title} · Dustbound`}</title>
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <title>{pageTitle}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class="min-h-screen flex flex-col">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-accent-ink focus:outline-none"
+    >
+      Skip to content
+    </a>
     <header class="relative z-10 border-b border-border/60 bg-panel/80 backdrop-blur-sm">
       <nav class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6" aria-label="Primary">
         <a href="/" class="group flex items-center gap-2.5 text-ink no-underline font-extrabold tracking-wide hover:text-accent hover:no-underline">
@@ -54,12 +129,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       </nav>
     </header>
 
-    <main class="relative z-10 flex-1">
+    <main id="main-content" class="relative z-10 flex-1">
       <slot />
     </main>
 
     <footer class="relative z-10 border-t border-border/60 bg-panel/90 px-4 py-8 sm:px-6">
       <div class="mx-auto max-w-5xl space-y-3 text-sm text-muted">
+        <p class="font-semibold text-ink">Dustbound</p>
         <div class="flex flex-wrap gap-x-5 gap-y-2">
           <a href="/privacy/" class="text-muted hover:text-accent">Privacy</a>
           <a href="/cookies/" class="text-muted hover:text-accent">Cookies</a>
@@ -68,6 +144,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <p data-testid="unofficial-disclaimer">
           Dustbound is an unofficial fan companion. It is not affiliated with, endorsed by, supported by, or connected to Epic Games, Inc.
         </p>
+        <p>© {new Date().getFullYear()} Ingenium Software Engineering</p>
       </div>
     </footer>
   </body>

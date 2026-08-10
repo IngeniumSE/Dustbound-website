@@ -36,6 +36,40 @@ assert.match(index, /data-icon="pairing"/i, 'landing: pairing upcoming icon');
 assert.match(index, /data-testid="events-section"/i, 'landing: events section');
 assert.match(index, /data-testid="events-list"|data-testid="events-empty"/i, 'landing: events list or empty');
 
+// Social / Open Graph + Twitter cards
+assert.ok(fs.existsSync(path.join(dist, 'og.jpg')), 'social: og.jpg in dist');
+assert.match(index, /property="og:title"/i, 'social: og:title');
+assert.match(index, /property="og:description"/i, 'social: og:description');
+assert.match(index, /property="og:url"/i, 'social: og:url');
+assert.match(index, /property="og:image"[^>]*content="https:\/\/dustbound\.app\/og\.jpg"/i, 'social: og:image absolute');
+assert.match(index, /property="og:image:width"[^>]*content="1200"/i, 'social: og:image:width');
+assert.match(index, /property="og:image:height"[^>]*content="630"/i, 'social: og:image:height');
+assert.match(index, /property="og:site_name"[^>]*content="Dustbound"/i, 'social: og:site_name');
+assert.match(index, /name="twitter:card"[^>]*content="summary_large_image"/i, 'social: twitter:card');
+assert.match(index, /name="twitter:image"[^>]*content="https:\/\/dustbound\.app\/og\.jpg"/i, 'social: twitter:image');
+
+// SEO: crawlability, structured data, document title
+assert.match(index, /<title>Dustbound — Offline Sprite Collectibles Checklist<\/title>/i, 'seo: document title');
+assert.match(index, /name="robots"[^>]*content="index, follow/i, 'seo: robots meta');
+assert.match(index, /rel="canonical"[^>]*href="https:\/\/dustbound\.app\/"/i, 'seo: canonical');
+assert.match(index, /rel="sitemap"[^>]*href="\/sitemap-index\.xml"/i, 'seo: sitemap link');
+assert.match(index, /application\/ld\+json/i, 'seo: JSON-LD');
+assert.match(index, /"@type":"WebSite"/i, 'seo: WebSite schema');
+assert.match(index, /"@type":"Organization"/i, 'seo: Organization schema');
+assert.match(index, /"@type":"MobileApplication"/i, 'seo: MobileApplication schema');
+assert.match(index, /id="main-content"/i, 'seo: main landmark id');
+assert.match(index, /href="#main-content"/i, 'seo: skip link');
+assert.ok(fs.existsSync(path.join(dist, 'robots.txt')), 'seo: robots.txt');
+assert.match(read('robots.txt'), /Sitemap:\s*https:\/\/dustbound\.app\/sitemap-index\.xml/i, 'seo: robots sitemap');
+assert.ok(
+  fs.existsSync(path.join(dist, 'sitemap-index.xml')) || fs.existsSync(path.join(dist, 'sitemap-0.xml')),
+  'seo: sitemap xml',
+);
+const sitemap = fs.existsSync(path.join(dist, 'sitemap-0.xml'))
+  ? read('sitemap-0.xml')
+  : read('sitemap-index.xml');
+assert.match(sitemap, /https:\/\/dustbound\.app\//, 'seo: sitemap includes home');
+
 function countTag(html, tag) {
   return (html.match(new RegExp(`<${tag}\\b`, 'gi')) || []).length;
 }
@@ -64,10 +98,13 @@ assert.equal(
   'privacy: disclaimer only in site footer (not repeated in body)',
 );
 
+assert.match(privacy, /property="og:title"[^>]*content="Privacy · Dustbound"/i, 'privacy: og:title');
+
 const support = read('support/index.html');
 assertSingleChrome(support, 'support');
 assert.equal(countTag(support, 'header'), 1, 'support: exactly one <header>');
 assert.match(support, /support@ingeniumsoftware\.dev/, 'support: email');
+assert.match(support, /property="og:title"[^>]*content="Support · Dustbound"/i, 'support: og:title');
 
 const cookies = read('cookies/index.html');
 assertSingleChrome(cookies, 'cookies');

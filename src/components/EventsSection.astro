@@ -13,8 +13,8 @@ const phaseLabel: Record<DisplayEvent['phase'], string> = {
   ok && events.length > 0 && (
     <section class="mb-14" aria-labelledby="events-heading" data-testid="events-section">
       <div class="mb-6 max-w-xl">
-        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="events-heading">Events</p>
-        <h2 class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
+        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent">Events</p>
+        <h2 id="events-heading" class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
         <p class="mt-2 text-sm text-muted sm:text-base">
           Active and upcoming Events from the public Dustbound feed — the same schedule the app uses. Times in UTC.
         </p>
@@ -53,8 +53,8 @@ const phaseLabel: Record<DisplayEvent['phase'], string> = {
   ok && events.length === 0 && (
     <section class="mb-14" aria-labelledby="events-heading" data-testid="events-section">
       <div class="mb-4 max-w-xl">
-        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="events-heading">Events</p>
-        <h2 class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
+        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent">Events</p>
+        <h2 id="events-heading" class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
         <p class="mt-2 text-sm text-muted" data-testid="events-empty">
           No active or upcoming Events right now — check back when the catalog feed refreshes.
         </p>

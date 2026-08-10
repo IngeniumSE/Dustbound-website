@@ -36,8 +36,26 @@ const upcoming = [
     body: 'Help each other obtain Collectibles. In-app, we call this Pairing.',
   },
 ];
+
+const appSchema = {
+  '@type': 'MobileApplication',
+  '@id': 'https://dustbound.app/#app',
+  name: 'Dustbound',
+  description:
+    'Local checklist for Sprite collectibles — track Collected and Mastered offline on Android.',
+  url: 'https://dustbound.app/',
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Android',
+  offers: {
+    '@type': 'Offer',
+    availability: 'https://schema.org/PreOrder',
+    priceCurrency: 'USD',
+  },
+  image: 'https://dustbound.app/og.jpg',
+  author: { '@id': 'https://dustbound.app/#organization' },
+};
 ---
-<Layout>
+<Layout schema={appSchema}>
   <div class="relative isolate overflow-hidden">
     <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
       <Image
@@ -60,7 +78,7 @@ const upcoming = [
           <div class="brand-mark hero-brand-mark shrink-0" data-testid="brand-icon">
             <Image
               src={appIcon}
-              alt=""
+              alt="Dustbound app icon"
               width={160}
               height={160}
               widths={[120, 160, 240]}
@@ -99,7 +117,7 @@ const upcoming = [
 
       <!-- What it does -->
       <section class="mb-14" aria-labelledby="does-heading">
-        <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="does-heading">What it does</p>
+        <h2 class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="does-heading">What it does</h2>
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-testid="what-it-does">
           {beats.map((beat, i) => (
             <div class="rounded-2xl border border-border bg-section/80 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40">
@@ -116,7 +134,7 @@ const upcoming = [
 
       <!-- Upcoming roadmap -->
       <section aria-labelledby="upcoming-heading">
-        <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="upcoming-heading">Coming up</p>
+        <h2 class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="upcoming-heading">Coming up</h2>
         <div class="grid grid-cols-1 gap-3 md:grid-cols-3" data-testid="upcoming">
           {upcoming.map((item) => (
             <article class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40">
