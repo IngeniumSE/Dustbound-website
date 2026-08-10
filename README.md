@@ -1,15 +1,22 @@
 # Dustbound website
 
-Public marketing site for **Dustbound** — Coming soon checklist app for Sprite collectibles.
+Marketing site for **Dustbound** — static Astro SSG on GitHub Pages at [https://dustbound.app](https://dustbound.app).
 
-- **Live:** https://dustbound.app/
-- **Stack:** Astro SSG, Tailwind, TypeScript, Node 22
-- **Spec:** https://github.com/IngeniumSE/Dustbound/issues/62
+## Develop
 
 ```bash
 npm ci
 npm run dev
-npm run build && npm test
 ```
 
-Deploy: GitHub Actions on `main` → GitHub Pages.
+## Build & verify
+
+```bash
+npm test
+```
+
+## Deploy
+
+Pushes to `main` run `.github/workflows/deploy.yml` (Astro + GitHub Pages). Node 22 (see `.nvmrc`).
+
+Spec / tickets live in the private Dustbound repo (implementation spec #62).

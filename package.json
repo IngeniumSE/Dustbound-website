@@ -10,13 +10,12 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node scripts/verify-site.mjs",
-    "verify": "npm run build && npm test"
+    "test": "npm run build && node scripts/verify-site.mjs",
+    "verify": "node scripts/verify-site.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.0",
-    "sharp": "^0.34.2",
     "tailwindcss": "^4.3.3"
   }
 }
