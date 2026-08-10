@@ -25,6 +25,10 @@ assert.match(index, /Pairing/i, 'landing: Pairing callout');
 assert.match(index, /href="\/privacy\/"/, 'landing: privacy link');
 assert.match(index, /href="\/support\/"/, 'landing: support link');
 assert.match(index, /href="\/cookies\/"/, 'landing: cookies link');
+assert.match(index, /data-testid="brand-icon"|brand\/app-icon/i, 'landing: brand icon');
+assert.match(index, /data-testid="app-showcase"|Inside Dustbound/i, 'landing: app showcase');
+assert.match(index, /data-testid="sprite-constellation"|sprite-orb/i, 'landing: sprite constellation');
+assert.match(index, /screenshots\/checklist|Track Collected/i, 'landing: checklist screenshot');
 
 function countTag(html, tag) {
   return (html.match(new RegExp(`<${tag}\\b`, 'gi')) || []).length;

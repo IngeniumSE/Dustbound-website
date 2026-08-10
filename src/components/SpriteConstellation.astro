@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import air from '../assets/sprites/air.png';
+import aura from '../assets/sprites/aura.png';
+import dream from '../assets/sprites/dream.png';
+import duck from '../assets/sprites/duck.png';
+import earth from '../assets/sprites/earth.png';
+import fire from '../assets/sprites/fire.png';
+import ghost from '../assets/sprites/ghost.png';
+import water from '../assets/sprites/water.png';
+
+const sprites = [
+  { src: fire, delay: '0s', size: 'lg' },
+  { src: air, delay: '0.4s', size: 'md' },
+  { src: duck, delay: '0.8s', size: 'sm' },
+  { src: water, delay: '0.2s', size: 'lg' },
+  { src: earth, delay: '1s', size: 'md' },
+  { src: ghost, delay: '0.6s', size: 'sm' },
+  { src: aura, delay: '1.2s', size: 'md' },
+  { src: dream, delay: '0.3s', size: 'lg' },
+] as const;
+
+const sizeClass = {
+  sm: 'w-12 h-12 sm:w-14 sm:h-14',
+  md: 'w-14 h-14 sm:w-16 sm:h-16',
+  lg: 'w-16 h-16 sm:w-20 sm:h-20',
+} as const;
+---
+<div class="sprite-constellation relative mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-3 py-2 sm:gap-5" aria-hidden="true" data-testid="sprite-constellation">
+  {sprites.map((s, i) => (
+    <div
+      class:list={['sprite-orb', sizeClass[s.size]]}
+      style={`--orb-delay: ${s.delay}; --orb-index: ${i}`}
+    >
+      <Image
+        src={s.src}
+        alt=""
+        widths={[64, 96, 128]}
+        sizes="80px"
+        quality={80}
+        class="h-full w-full object-contain"
+        loading="lazy"
+      />
+    </div>
+  ))}
+</div>

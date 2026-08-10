@@ -2,7 +2,10 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import InterestForm from '../components/InterestForm.astro';
+import SpriteConstellation from '../components/SpriteConstellation.astro';
+import AppShowcase from '../components/AppShowcase.astro';
 import gardenBg from '../assets/garden_pond_bg.jpg';
+import appIcon from '../assets/brand/app-icon.png';
 
 const beats = [
   'Check off Collectibles as Collected or Mastered',
@@ -42,37 +45,59 @@ const upcoming = [
         loading="eager"
         fetchpriority="high"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-panel/50 via-panel/75 to-panel"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-panel/35 via-panel/65 to-panel"></div>
     </div>
 
     <div class="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 sm:pt-10">
-      <!-- Compact hero -->
-      <header class="max-w-xl space-y-3 pb-6" data-testid="hero">
-        <p class="inline-block rounded-full border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent" data-testid="coming-soon">
-          Coming soon · Android
-        </p>
-        <h1 class="text-4xl font-black tracking-tight text-ink sm:text-5xl">Dustbound</h1>
-        <p class="text-lg font-semibold text-ink sm:text-xl" data-testid="thesis">
-          Local checklist for Sprite collectibles — track Collected and Mastered offline.
-        </p>
-        <p class="text-sm text-muted" data-testid="soft-price">
-          Coming soon on Google Play — a one-time purchase, priced to stay low.
-        </p>
+      <!-- Compact hero: brand icon is the signature visual -->
+      <header class="relative pb-8" data-testid="hero">
+        <div class="flex flex-col items-center gap-5 text-center sm:flex-row sm:items-center sm:gap-7 sm:text-left">
+          <div class="brand-mark hero-brand-mark shrink-0" data-testid="brand-icon">
+            <Image
+              src={appIcon}
+              alt=""
+              width={160}
+              height={160}
+              widths={[120, 160, 240]}
+              sizes="(max-width: 640px) 128px, 160px"
+              quality={85}
+              class="brand-mark__img h-32 w-32 sm:h-40 sm:w-40"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+          <div class="max-w-xl space-y-3">
+            <p class="inline-block rounded-full border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent" data-testid="coming-soon">
+              Coming soon · Android
+            </p>
+            <h1 class="text-4xl font-black tracking-tight text-ink sm:text-5xl md:text-6xl">Dustbound</h1>
+            <p class="text-lg font-semibold text-ink sm:text-xl" data-testid="thesis">
+              Local checklist for Sprite collectibles — track Collected and Mastered offline.
+            </p>
+            <p class="text-sm text-muted" data-testid="soft-price">
+              Coming soon on Google Play — a one-time purchase, priced to stay low.
+            </p>
+          </div>
+        </div>
       </header>
 
       <!-- Interest signup -->
-      <section class="mb-12 rounded-2xl border border-border bg-glass/80 p-4 backdrop-blur-md sm:p-5" aria-labelledby="notify-heading" data-testid="interest-signup">
+      <section class="mb-10 rounded-2xl border border-border bg-glass/80 p-4 backdrop-blur-md sm:p-5" aria-labelledby="notify-heading" data-testid="interest-signup">
         <h2 id="notify-heading" class="mb-1 text-base font-bold text-ink">Get notified when Dustbound is available</h2>
         <p class="mb-3 text-sm text-muted">Email only — we’ll write when early release is ready.</p>
         <InterestForm />
       </section>
 
+      <div class="mb-12">
+        <SpriteConstellation />
+      </div>
+
       <!-- What it does -->
-      <section class="mb-12" aria-labelledby="does-heading">
+      <section class="mb-14" aria-labelledby="does-heading">
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="does-heading">What it does</p>
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-testid="what-it-does">
           {beats.map((beat, i) => (
-            <div class="rounded-2xl border border-border bg-section/80 p-4 backdrop-blur-sm">
+            <div class="rounded-2xl border border-border bg-section/80 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40">
               <div class="mb-2 text-xs font-extrabold tracking-widest text-accent">0{i + 1}</div>
               <p class="text-sm text-muted">{beat}</p>
             </div>
@@ -80,12 +105,14 @@ const upcoming = [
         </div>
       </section>
 
+      <AppShowcase />
+
       <!-- Upcoming -->
       <section aria-labelledby="upcoming-heading">
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="upcoming-heading">Coming up</p>
         <div class="grid grid-cols-1 gap-3 md:grid-cols-3" data-testid="upcoming">
           {upcoming.map((item) => (
-            <article class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm">
+            <article class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40">
               <p class="text-xs font-bold uppercase tracking-widest text-accent">{item.kicker}</p>
               <h3 class="mt-2 text-lg font-bold text-ink">{item.title}</h3>
               <p class="mt-2 text-sm text-muted">{item.body}</p>

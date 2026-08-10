@@ -43,3 +43,132 @@ a:hover {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+
+/* Brand mark — soft vial glow */
+.brand-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.brand-mark::before {
+  content: "";
+  position: absolute;
+  inset: 8% 12%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 45%, transparent) 0%,
+    color-mix(in srgb, #ff5ab8 18%, transparent) 42%,
+    transparent 70%
+  );
+  filter: blur(18px);
+  z-index: -1;
+}
+
+.brand-mark__img {
+  position: relative;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
+}
+
+.hero-brand-mark {
+  animation: brand-float 5.5s ease-in-out infinite;
+}
+
+/* Sprite constellation */
+.sprite-orb {
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  padding: 0.35rem;
+  background: color-mix(in srgb, var(--color-glass) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--color-accent) 18%, transparent),
+    inset 0 0 12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  animation: orb-drift 6s ease-in-out infinite;
+  animation-delay: var(--orb-delay, 0s);
+}
+
+/* Phone showcase */
+.phone-bezel {
+  border-radius: 1.35rem;
+  padding: 0.4rem;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--color-border) 80%, white) 0%,
+    var(--color-panel) 40%,
+    #06120e 100%
+  );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-accent) 22%, transparent),
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    0 0 48px color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.phone-screen {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  background: var(--color-panel);
+}
+
+.phone-frame {
+  width: min(70vw, 240px);
+  margin: 0;
+  animation: phone-rise 0.7s ease-out both;
+  animation-delay: var(--phone-delay, 0s);
+}
+
+.phone-frame--hero {
+  width: min(78vw, 280px);
+}
+
+.phone-frame--side {
+  width: min(58vw, 220px);
+}
+
+@keyframes brand-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes orb-drift {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(calc(-6px - (var(--orb-index, 0) * 0.4px))) scale(1.04);
+  }
+}
+
+@keyframes phone-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-brand-mark,
+  .sprite-orb,
+  .phone-frame {
+    animation: none !important;
+  }
+}
