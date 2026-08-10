@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Dustbound',
+  description = 'Local checklist for Sprite collectibles — track Collected and Mastered offline.',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{title === 'Dustbound' ? title : `${title} · Dustbound`}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="relative z-10 border-b border-border/60 bg-panel/80 backdrop-blur-sm">
+      <nav class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6" aria-label="Primary">
+        <a href="/" class="text-ink no-underline font-extrabold tracking-wide hover:text-accent">Dustbound</a>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
+          <a href="/privacy/" class="text-muted hover:text-accent">Privacy</a>
+          <a href="/support/" class="text-muted hover:text-accent">Support</a>
+          <a href="/cookies/" class="text-muted hover:text-accent">Cookies</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="relative z-10 flex-1">
+      <slot />
+    </main>
+
+    <footer class="relative z-10 border-t border-border/60 bg-panel/90 px-4 py-8 sm:px-6">
+      <div class="mx-auto max-w-5xl space-y-3 text-sm text-muted">
+        <div class="flex flex-wrap gap-x-5 gap-y-2">
+          <a href="/privacy/" class="text-muted hover:text-accent">Privacy</a>
+          <a href="/cookies/" class="text-muted hover:text-accent">Cookies</a>
+          <a href="/support/" class="text-muted hover:text-accent">Support</a>
+        </div>
+        <p data-testid="unofficial-disclaimer">
+          Dustbound is an unofficial fan companion. It is not affiliated with, endorsed by, supported by, or connected to Epic Games, Inc.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

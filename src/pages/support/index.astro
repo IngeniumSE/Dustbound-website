@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+---
+<Layout title="Support — Dustbound" description="Contact support for Dustbound.">
+  <div class="min-h-screen bg-panel">
+    <SiteHeader />
+    <main class="mx-auto max-w-3xl px-5 py-10 md:px-8">
+      <h1 class="mb-4 text-3xl font-black text-ink md:text-4xl">Support</h1>
+      <p class="mb-6 max-w-xl text-muted">
+        Questions about Dustbound? Email us and we’ll help as best we can.
+      </p>
+      <p class="text-lg">
+        <a class="font-bold" href="mailto:support@ingeniumsoftware.dev">support@ingeniumsoftware.dev</a>
+      </p>
+      <p class="mt-8 text-sm text-muted">
+        For privacy-specific requests, use <a href="mailto:privacy@ingeniumsoftware.dev">privacy@ingeniumsoftware.dev</a>
+        or see the <a href="/privacy/">Privacy Policy</a>.
+      </p>
+    </main>
+    <SiteFooter />
+  </div>
+</Layout>

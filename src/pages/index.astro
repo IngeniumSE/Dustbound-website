@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import InterestForm from '../components/InterestForm.astro';
+import gardenBg from '../assets/garden_pond_bg.jpg';
+
+const beats = [
+  'Check off Collectibles as Collected or Mastered',
+  'Works offline — local-first on your device',
+  'Season-aware catalog stays current when you’re online',
+  'Earn fun Achievements as you collect and master',
+];
+
+const upcoming = [
+  {
+    kicker: 'Next season',
+    title: 'New Sprites to track',
+    body: 'Checklist support for the next season of Sprites — new Sprites to collect and master.',
+  },
+  {
+    kicker: 'Pipeline',
+    title: 'More Achievements',
+    body: 'More Achievements to earn as you collect and master — coming later.',
+  },
+  {
+    kicker: 'Coming later',
+    title: 'Trading or Indexing',
+    body: 'Help each other obtain Collectibles. In-app, we call this Pairing.',
+  },
+];
+---
+<Layout>
+  <div class="relative isolate overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      <Image
+        src={gardenBg}
+        alt=""
+        class="h-full w-full object-cover object-top opacity-70"
+        widths={[640, 960, 1280, 1920]}
+        sizes="100vw"
+        quality={75}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-panel/50 via-panel/75 to-panel"></div>
+    </div>
+
+    <div class="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 sm:pt-10">
+      <!-- Compact hero -->
+      <header class="max-w-xl space-y-3 pb-6" data-testid="hero">
+        <p class="inline-block rounded-full border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent" data-testid="coming-soon">
+          Coming soon · Android
+        </p>
+        <h1 class="text-4xl font-black tracking-tight text-ink sm:text-5xl">Dustbound</h1>
+        <p class="text-lg font-semibold text-ink sm:text-xl" data-testid="thesis">
+          Local checklist for Sprite collectibles — track Collected and Mastered offline.
+        </p>
+        <p class="text-sm text-muted" data-testid="soft-price">
+          Coming soon on Google Play — a one-time purchase, priced to stay low.
+        </p>
+      </header>
+
+      <!-- Interest signup -->
+      <section class="mb-12 rounded-2xl border border-border bg-glass/80 p-4 backdrop-blur-md sm:p-5" aria-labelledby="notify-heading" data-testid="interest-signup">
+        <h2 id="notify-heading" class="mb-1 text-base font-bold text-ink">Get notified when Dustbound is available</h2>
+        <p class="mb-3 text-sm text-muted">Email only — we’ll write when early release is ready.</p>
+        <InterestForm />
+      </section>
+
+      <!-- What it does -->
+      <section class="mb-12" aria-labelledby="does-heading">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="does-heading">What it does</p>
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-testid="what-it-does">
+          {beats.map((beat, i) => (
+            <div class="rounded-2xl border border-border bg-section/80 p-4 backdrop-blur-sm">
+              <div class="mb-2 text-xs font-extrabold tracking-widest text-accent">0{i + 1}</div>
+              <p class="text-sm text-muted">{beat}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Upcoming -->
+      <section aria-labelledby="upcoming-heading">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="upcoming-heading">Coming up</p>
+        <div class="grid grid-cols-1 gap-3 md:grid-cols-3" data-testid="upcoming">
+          {upcoming.map((item) => (
+            <article class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm">
+              <p class="text-xs font-bold uppercase tracking-widest text-accent">{item.kicker}</p>
+              <h3 class="mt-2 text-lg font-bold text-ink">{item.title}</h3>
+              <p class="mt-2 text-sm text-muted">{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

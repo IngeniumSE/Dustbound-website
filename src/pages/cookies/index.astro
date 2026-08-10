@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+---
+<Layout title="Cookies — Dustbound" description="Dustbound cookie policy.">
+  <div class="min-h-screen bg-panel">
+    <SiteHeader />
+    <main class="mx-auto max-w-3xl px-5 py-10 md:px-8" data-page="cookies">
+      <h1 class="mb-4 text-3xl font-black text-ink md:text-4xl">Cookie policy</h1>
+      <div class="space-y-4 text-muted">
+        <p data-claim="no-first-party-cookies">
+          The Dustbound marketing website at <strong class="text-ink">dustbound.app</strong> does
+          <strong class="text-ink">not set first-party cookies</strong>.
+        </p>
+        <p data-claim="no-analytics">
+          We do <strong class="text-ink">not</strong> use analytics, advertising, or tracking scripts on this site.
+          There is no cookie consent banner because we do not use non-essential cookies.
+        </p>
+        <p>
+          If you submit the interest form, your browser sends the email to
+          <strong class="text-ink">Formspree</strong> so we can notify you about early release. That request is processed by Formspree;
+          see the <a href="/privacy/">Privacy Policy</a> Website section and
+          <a href="https://formspree.io/legal/privacy-policy/" rel="noopener noreferrer">Formspree’s Privacy Policy</a>.
+        </p>
+        <p>
+          Hosting (GitHub Pages and any CDN such as Cloudflare) may process ordinary technical connection data when you visit the site.
+        </p>
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+</Layout>

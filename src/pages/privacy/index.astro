@@ -1,0 +1,103 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+---
+<Layout title="Privacy — Dustbound" description="Dustbound Privacy Policy — app and website.">
+  <div class="min-h-screen bg-panel">
+    <SiteHeader />
+    <main class="prose-dust mx-auto max-w-3xl px-5 py-10 md:px-8">
+      <h1 class="mb-2 text-3xl font-black text-ink md:text-4xl">Dustbound Privacy Policy</h1>
+      <p class="mb-8 text-sm text-muted">Last updated: 10 August 2026</p>
+
+      <section class="mb-10 space-y-4 text-muted" data-section="intro">
+        <h2 class="text-xl font-bold text-ink">Who we are</h2>
+        <p>
+          This Privacy Policy describes how <strong class="text-ink">Ingenium Software Engineering</strong>
+          (“we”, “us”, or “Ingenium”) handles information in connection with the mobile application
+          <strong class="text-ink">Dustbound</strong> (Android package <code class="text-accent">dev.ingeniumsoftware.dustbound</code>)
+          and the website at <a href="https://dustbound.app/">https://dustbound.app/</a>.
+        </p>
+        <p>
+          Dustbound is a local-first companion checklist for tracking Sprite collectible progress. It is an unofficial product.
+          Dustbound is not affiliated with, endorsed by, supported by, or connected to Epic Games, Inc., and it does not contain any Fortnite materials.
+        </p>
+        <p>
+          For privacy inquiries, contact <a href="mailto:privacy@ingeniumsoftware.dev">privacy@ingeniumsoftware.dev</a>.
+        </p>
+      </section>
+
+      <section class="mb-10 space-y-4 text-muted" data-section="app">
+        <h2 class="text-xl font-bold text-ink">App</h2>
+        <h3 class="text-lg font-semibold text-ink">Summary</h3>
+        <p>
+          Dustbound stores your checklist progress and preferences on your device only. We do not create user accounts,
+          do not upload your progress to our servers, and do not use analytics, advertising, or crash-reporting SDKs.
+          The app may download publicly available catalog and events data over the internet so checklists stay up to date.
+        </p>
+        <h3 class="text-lg font-semibold text-ink">Information stored on your device</h3>
+        <ul class="list-disc space-y-2 pl-5">
+          <li><strong class="text-ink">Checklist progress</strong> — which collectibles you have marked as Collected or Mastered.</li>
+          <li><strong class="text-ink">Preferences</strong> — optional event timezone override and local Event notification settings.</li>
+          <li><strong class="text-ink">Content caches</strong> — copies of public catalog and events data used offline or between refreshes.</li>
+        </ul>
+        <p>
+          This on-device data is not transmitted to Ingenium. If Android Backup is enabled, the operating system may include app data in device backups according to your system settings.
+        </p>
+        <h3 class="text-lg font-semibold text-ink">Network access and permissions</h3>
+        <p>
+          Dustbound may use network access to download public catalog and events JSON feeds over HTTPS (for example from hosting provided via GitHub Pages).
+          These requests do not include your checklist progress. Hosting providers may incidentally receive technical information such as IP address and User-Agent.
+        </p>
+        <p>
+          If you enable Event reminders, Dustbound requests notification permission so it can schedule reminders on your device. Reminder content stays local.
+        </p>
+        <h3 class="text-lg font-semibold text-ink">Information we do not collect (app)</h3>
+        <p>
+          The app does not require accounts, sync progress to Ingenium, include advertising/analytics/crash SDKs, or collect precise location, contacts, or advertising identifiers for our use.
+          Paid downloads are handled by Google Play under Google’s policies.
+        </p>
+        <h3 class="text-lg font-semibold text-ink">Retention and deletion (app)</h3>
+        <p>
+          On-device data is retained until you clear Dustbound’s app data or uninstall the app. There is no account-deletion flow because there are no accounts.
+        </p>
+        <h3 class="text-lg font-semibold text-ink">Children</h3>
+        <p>Dustbound is not directed at children, and we do not knowingly collect personal information from children through the app.</p>
+      </section>
+
+      <section class="mb-10 space-y-4 text-muted" data-section="website">
+        <h2 class="text-xl font-bold text-ink">Website</h2>
+        <p>
+          The marketing website at dustbound.app may collect <strong class="text-ink">email addresses only</strong> when you submit the interest form,
+          so we can notify you about Dustbound early releases / launch. We do not ask for name or phone number on that form.
+        </p>
+        <p>
+          Form submissions are processed by <strong class="text-ink">Formspree</strong> on our behalf. See
+          <a href="https://formspree.io/legal/privacy-policy/" rel="noopener noreferrer">Formspree’s Privacy Policy</a>.
+          We keep emails only for that notification purpose, then delete or stop using them. To request deletion, email
+          <a href="mailto:privacy@ingeniumsoftware.dev">privacy@ingeniumsoftware.dev</a>.
+        </p>
+        <p>
+          The website does not set first-party cookies and does not use analytics. See the
+          <a href="/cookies/">Cookie policy</a>.
+        </p>
+        <p>
+          Visiting the site involves normal web hosting (GitHub Pages and any CDN in front), which may process technical connection data such as IP address.
+        </p>
+      </section>
+
+      <section class="mb-10 space-y-4 text-muted">
+        <h2 class="text-xl font-bold text-ink">Changes</h2>
+        <p>
+          We may update this Privacy Policy from time to time. The “Last updated” date will change when we do.
+          The current version remains available at <a href="https://dustbound.app/privacy/">https://dustbound.app/privacy/</a>.
+        </p>
+      </section>
+
+      <p class="text-sm text-muted">
+        Dustbound is an unofficial fan companion. It is not affiliated with, endorsed by, supported by, or connected to Epic Games, Inc.
+      </p>
+    </main>
+    <SiteFooter />
+  </div>
+</Layout>
