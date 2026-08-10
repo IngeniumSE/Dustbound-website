@@ -29,6 +29,12 @@ assert.match(index, /data-testid="brand-icon"|brand\/app-icon/i, 'landing: brand
 assert.match(index, /data-testid="app-showcase"|Inside Dustbound/i, 'landing: app showcase');
 assert.match(index, /data-testid="sprite-constellation"|sprite-orb/i, 'landing: sprite constellation');
 assert.match(index, /screenshots\/checklist|Track Collected/i, 'landing: checklist screenshot');
+assert.match(index, /data-testid="upcoming"|Coming up/i, 'landing: upcoming roadmap');
+assert.match(index, /data-icon="sprites"/i, 'landing: sprites upcoming icon');
+assert.match(index, /data-icon="achievements"/i, 'landing: achievements upcoming icon');
+assert.match(index, /data-icon="pairing"/i, 'landing: pairing upcoming icon');
+assert.match(index, /data-testid="events-section"/i, 'landing: events section');
+assert.match(index, /data-testid="events-list"|data-testid="events-empty"/i, 'landing: events list or empty');
 
 function countTag(html, tag) {
   return (html.match(new RegExp(`<${tag}\\b`, 'gi')) || []).length;

@@ -130,6 +130,21 @@ a:hover {
   width: min(58vw, 220px);
 }
 
+/* Coming-up roadmap icons */
+.upcoming-icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  padding: 0.4rem;
+  border-radius: 9999px;
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-glass) 75%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+
 @keyframes brand-float {
   0%,
   100% {

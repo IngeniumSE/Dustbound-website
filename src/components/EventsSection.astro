@@ -1,0 +1,64 @@
+---
+import { fetchLiveEvents, type DisplayEvent } from '../lib/events-feed';
+
+const { events, ok } = await fetchLiveEvents();
+
+const phaseLabel: Record<DisplayEvent['phase'], string> = {
+  active: 'In progress',
+  upcoming: 'Upcoming',
+  past: 'Past',
+};
+---
+{
+  ok && events.length > 0 && (
+    <section class="mb-14" aria-labelledby="events-heading" data-testid="events-section">
+      <div class="mb-6 max-w-xl">
+        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="events-heading">Events</p>
+        <h2 class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
+        <p class="mt-2 text-sm text-muted sm:text-base">
+          Active and upcoming Events from the public Dustbound feed — the same schedule the app uses. Times in UTC.
+        </p>
+      </div>
+
+      <ul class="space-y-3" data-testid="events-list">
+        {events.map((event) => (
+          <li
+            class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40 sm:p-5"
+            data-event-id={event.id}
+            data-event-phase={event.phase}
+          >
+            <div class="flex flex-wrap items-center gap-2">
+              <span
+                class:list={[
+                  'inline-block rounded-md px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest',
+                  event.phase === 'active'
+                    ? 'bg-accent text-accent-ink'
+                    : 'border border-accent/50 text-accent',
+                ]}
+              >
+                {phaseLabel[event.phase]}
+              </span>
+            </div>
+            <h3 class="mt-2 text-lg font-bold text-ink">{event.title}</h3>
+            {event.summary && <p class="mt-1 text-sm text-muted">{event.summary}</p>}
+            <p class="mt-2 text-xs font-medium text-muted/90">{event.rangeLabel}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+{
+  ok && events.length === 0 && (
+    <section class="mb-14" aria-labelledby="events-heading" data-testid="events-section">
+      <div class="mb-4 max-w-xl">
+        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="events-heading">Events</p>
+        <h2 class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
+        <p class="mt-2 text-sm text-muted" data-testid="events-empty">
+          No active or upcoming Events right now — check back when the catalog feed refreshes.
+        </p>
+      </div>
+    </section>
+  )
+}

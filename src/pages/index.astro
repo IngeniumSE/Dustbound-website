@@ -4,6 +4,8 @@ import Layout from '../layouts/Layout.astro';
 import InterestForm from '../components/InterestForm.astro';
 import SpriteConstellation from '../components/SpriteConstellation.astro';
 import AppShowcase from '../components/AppShowcase.astro';
+import EventsSection from '../components/EventsSection.astro';
+import UpcomingCardIcon from '../components/UpcomingCardIcon.astro';
 import gardenBg from '../assets/garden_pond_bg.jpg';
 import appIcon from '../assets/brand/app-icon.png';
 
@@ -16,16 +18,19 @@ const beats = [
 
 const upcoming = [
   {
+    kind: 'sprites' as const,
     kicker: 'Next season',
     title: 'New Sprites to track',
     body: 'Checklist support for the next season of Sprites — new Sprites to collect and master.',
   },
   {
+    kind: 'achievements' as const,
     kicker: 'Pipeline',
     title: 'More Achievements',
     body: 'More Achievements to earn as you collect and master — coming later.',
   },
   {
+    kind: 'pairing' as const,
     kicker: 'Coming later',
     title: 'Trading or Indexing',
     body: 'Help each other obtain Collectibles. In-app, we call this Pairing.',
@@ -107,14 +112,19 @@ const upcoming = [
 
       <AppShowcase />
 
-      <!-- Upcoming -->
+      <EventsSection />
+
+      <!-- Upcoming roadmap -->
       <section aria-labelledby="upcoming-heading">
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="upcoming-heading">Coming up</p>
         <div class="grid grid-cols-1 gap-3 md:grid-cols-3" data-testid="upcoming">
           {upcoming.map((item) => (
             <article class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40">
-              <p class="text-xs font-bold uppercase tracking-widest text-accent">{item.kicker}</p>
-              <h3 class="mt-2 text-lg font-bold text-ink">{item.title}</h3>
+              <div class="mb-3 flex items-start justify-between gap-3">
+                <p class="text-xs font-bold uppercase tracking-widest text-accent">{item.kicker}</p>
+                <UpcomingCardIcon kind={item.kind} />
+              </div>
+              <h3 class="text-lg font-bold text-ink">{item.title}</h3>
               <p class="mt-2 text-sm text-muted">{item.body}</p>
             </article>
           ))}
