@@ -1,64 +1,160 @@
 ---
-import { fetchLiveEvents, type DisplayEvent } from '../lib/events-feed';
-
-const { events, ok } = await fetchLiveEvents();
-
-const phaseLabel: Record<DisplayEvent['phase'], string> = {
-  active: 'In progress',
-  upcoming: 'Upcoming',
-  past: 'Past',
-};
 ---
-{
-  ok && events.length > 0 && (
-    <section class="mb-14" aria-labelledby="events-heading" data-testid="events-section">
-      <div class="mb-6 max-w-xl">
-        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent">Events</p>
-        <h2 id="events-heading" class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
-        <p class="mt-2 text-sm text-muted sm:text-base">
-          Active and upcoming Events from the public Dustbound feed — the same schedule the app uses. Times in UTC.
-        </p>
-      </div>
+<section class="mb-14" aria-labelledby="events-heading" data-testid="events-section" data-events-root>
+  <div class="mb-6 max-w-xl">
+    <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent">Events</p>
+    <h2 id="events-heading" class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
+    <p class="mt-2 text-sm text-muted sm:text-base">
+      Active and upcoming Events from the public Dustbound feed — the same schedule and sprite art the app uses. Times in UTC.
+    </p>
+  </div>
 
-      <ul class="space-y-3" data-testid="events-list">
-        {events.map((event) => (
-          <li
-            class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40 sm:p-5"
-            data-event-id={event.id}
-            data-event-phase={event.phase}
-          >
-            <div class="flex flex-wrap items-center gap-2">
-              <span
-                class:list={[
-                  'inline-block rounded-md px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest',
-                  event.phase === 'active'
-                    ? 'bg-accent text-accent-ink'
-                    : 'border border-accent/50 text-accent',
-                ]}
-              >
-                {phaseLabel[event.phase]}
-              </span>
-            </div>
-            <h3 class="mt-2 text-lg font-bold text-ink">{event.title}</h3>
-            {event.summary && <p class="mt-1 text-sm text-muted">{event.summary}</p>}
-            <p class="mt-2 text-xs font-medium text-muted/90">{event.rangeLabel}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )
-}
+  <p class="text-sm text-muted" data-events-status role="status">Loading events…</p>
+  <ul class="space-y-3" data-testid="events-list" data-events-list hidden></ul>
+  <p class="text-sm text-muted" data-testid="events-empty" data-events-empty hidden>
+    No active or upcoming Events right now — check back when the catalog feed refreshes.
+  </p>
+</section>
 
-{
-  ok && events.length === 0 && (
-    <section class="mb-14" aria-labelledby="events-heading" data-testid="events-section">
-      <div class="mb-4 max-w-xl">
-        <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent">Events</p>
-        <h2 id="events-heading" class="text-2xl font-black tracking-tight text-ink sm:text-3xl">What’s on in the garden</h2>
-        <p class="mt-2 text-sm text-muted" data-testid="events-empty">
-          No active or upcoming Events right now — check back when the catalog feed refreshes.
-        </p>
-      </div>
-    </section>
-  )
-}
+<script>
+  import { fetchLiveEvents, type DisplayEvent, type EventArtChip } from '../lib/events-feed';
+
+  const root = document.querySelector('[data-events-root]');
+  const status = root?.querySelector('[data-events-status]');
+  const list = root?.querySelector('[data-events-list]');
+  const empty = root?.querySelector('[data-events-empty]');
+
+  const phaseLabel: Record<DisplayEvent['phase'], string> = {
+    active: 'In progress',
+    upcoming: 'Upcoming',
+    past: 'Past',
+  };
+
+  function show(el: Element | null | undefined, on: boolean) {
+    if (!(el instanceof HTMLElement)) return;
+    el.hidden = !on;
+  }
+
+  function renderArtChip(chip: EventArtChip): HTMLLIElement {
+    const item = document.createElement('li');
+    item.className = 'event-art-chip';
+
+    const well = document.createElement('div');
+    well.className = 'event-art-well';
+
+    const glyph = () => {
+      const mark = document.createElement('span');
+      mark.className = 'event-art-glyph';
+      mark.textContent = chip.spriteId ? chip.spriteId[0].toUpperCase() : '?';
+      mark.setAttribute('aria-hidden', 'true');
+      return mark;
+    };
+
+    if (chip.featuredUrl) {
+      const img = document.createElement('img');
+      img.src = chip.featuredUrl;
+      img.alt = chip.caption;
+      img.width = 52;
+      img.height = 52;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.className = 'event-art-img';
+      if (chip.thumbUrl) {
+        img.srcset = `${chip.thumbUrl} 160w, ${chip.featuredUrl} 256w`;
+        img.sizes = '52px';
+      }
+      img.addEventListener('error', () => {
+        if (chip.baseFeaturedUrl && img.getAttribute('src') !== chip.baseFeaturedUrl) {
+          img.removeAttribute('srcset');
+          img.src = chip.baseFeaturedUrl;
+          return;
+        }
+        img.replaceWith(glyph());
+      });
+      well.append(img);
+    } else {
+      well.append(glyph());
+    }
+
+    const caption = document.createElement('p');
+    caption.className = 'event-art-caption';
+    caption.textContent = chip.caption;
+
+    item.append(well, caption);
+    return item;
+  }
+
+  function renderEvent(event: DisplayEvent): HTMLLIElement {
+    const li = document.createElement('li');
+    li.className =
+      'rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40 sm:p-5';
+    li.dataset.eventId = event.id;
+    li.dataset.eventPhase = event.phase;
+
+    const row = document.createElement('div');
+    row.className = 'flex flex-wrap items-center gap-2';
+
+    const badge = document.createElement('span');
+    badge.className =
+      event.phase === 'active'
+        ? 'inline-block rounded-md px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest bg-accent text-accent-ink'
+        : 'inline-block rounded-md px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-widest border border-accent/50 text-accent';
+    badge.textContent = phaseLabel[event.phase];
+    row.append(badge);
+
+    const title = document.createElement('h3');
+    title.className = 'mt-2 text-lg font-bold text-ink';
+    title.textContent = event.title;
+
+    li.append(row, title);
+
+    if (event.summary) {
+      const summary = document.createElement('p');
+      summary.className = 'mt-1 text-sm text-muted';
+      summary.textContent = event.summary;
+      li.append(summary);
+    }
+
+    const range = document.createElement('p');
+    range.className = 'mt-2 text-xs font-medium text-muted/90';
+    range.textContent = event.rangeLabel;
+    li.append(range);
+
+    if (event.art.length > 0) {
+      const chips = document.createElement('ul');
+      chips.className = 'event-art';
+      chips.dataset.testid = 'event-art';
+      chips.setAttribute('aria-label', `Sprites in ${event.title}`);
+      for (const chip of event.art) chips.append(renderArtChip(chip));
+      li.append(chips);
+    }
+
+    return li;
+  }
+
+  async function loadEvents() {
+    if (!(list instanceof HTMLElement) || !(status instanceof HTMLElement)) return;
+
+    const { events, ok } = await fetchLiveEvents();
+    status.hidden = true;
+
+    if (!ok) {
+      status.hidden = false;
+      status.textContent = 'Couldn’t load Events right now.';
+      return;
+    }
+
+    list.replaceChildren();
+    if (events.length === 0) {
+      show(list, false);
+      show(empty, true);
+      return;
+    }
+
+    for (const event of events) list.append(renderEvent(event));
+    show(empty, false);
+    show(list, true);
+  }
+
+  void loadEvents();
+</script>

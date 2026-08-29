@@ -12,12 +12,14 @@
     "astro": "astro",
     "test": "npm run build && node scripts/verify-site.mjs",
     "verify": "node scripts/verify-site.mjs",
-    "generate:og": "node scripts/generate-og.mjs"
+    "generate:og": "node scripts/generate-og.mjs",
+    "generate:store": "node scripts/generate-store-listings.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.0",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4.3.3"
   }
 }

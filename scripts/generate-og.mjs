@@ -38,7 +38,7 @@ const overlay = Buffer.from(`<svg width="${W}" height="${H}" xmlns="http://www.w
   <rect x="0" y="0" width="8" height="${H}" fill="url(#accent)"/>
   <text x="360" y="285" font-family="Segoe UI, ui-sans-serif, system-ui, sans-serif" font-size="84" font-weight="900" fill="#f7fffc">Dustbound</text>
   <text x="360" y="350" font-family="Segoe UI, ui-sans-serif, system-ui, sans-serif" font-size="30" font-weight="600" fill="#a8c8c0">Local checklist for Sprite collectibles</text>
-  <text x="360" y="395" font-family="Segoe UI, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#00d8f0">Coming soon · Android</text>
+  <text x="360" y="395" font-family="Segoe UI, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#00d8f0">Available now · iOS &amp; Android</text>
 </svg>`);
 
 await sharp(bg)

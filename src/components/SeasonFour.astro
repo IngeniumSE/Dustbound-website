@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import overrideShot from '../assets/screenshots/override.png';
+import { spriteArtUrl } from '../lib/catalog-art';
+
+const seasonTag = 'C7S4';
+const sprites = [
+  { id: 'klombo', name: 'Klombo' },
+  { id: 'sonic', name: 'Sonic' },
+  { id: 'tails', name: 'Tails' },
+  { id: 'shadow', name: 'Shadow' },
+  { id: 'jackrabbit', name: 'Jackrabbit' },
+  { id: '8bit', name: '8-Bit' },
+  { id: 'crown', name: 'Crown' },
+  { id: 'adventure', name: 'Adventure' },
+  { id: 'bush', name: 'Bush' },
+  { id: 'jonesy', name: 'Jonesy' },
+  { id: 'killswitch', name: 'Killswitch' },
+  { id: 'storm_scout', name: 'Storm Scout' },
+]
+  .sort((a, b) => a.name.localeCompare(b.name, 'en'))
+  .map((sprite) => ({
+    ...sprite,
+    featuredUrl: spriteArtUrl(seasonTag, sprite.id, null, 'featured'),
+    thumbUrl: spriteArtUrl(seasonTag, sprite.id, null, 'thumb'),
+  }));
+---
+<section class="mb-14" aria-labelledby="season-heading" data-testid="season-four">
+  <div class="mb-6 max-w-xl">
+    <p class="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-accent">New in Season 4</p>
+    <h2 id="season-heading" class="text-2xl font-black tracking-tight text-ink sm:text-3xl">
+      Twelve new Sprites, and Override
+    </h2>
+    <p class="mt-2 text-sm text-muted sm:text-base">
+      Dustbound’s checklist is on C7S4. Track the new roster — including Gold and Cheat Master — and keep this season’s Lobby Hacks in one place.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+    <article class="rounded-2xl border border-border bg-glass/70 p-5 backdrop-blur-sm sm:p-6">
+      <p class="text-xs font-bold uppercase tracking-[0.16em] text-accent">New Sprites</p>
+      <h3 class="mt-2 text-xl font-black text-ink">The Season 4 roster</h3>
+      <p class="mt-2 text-sm text-muted">
+        Twelve Sprites joined the garden. Each has Base, Gold, and Cheat Master to collect and master.
+      </p>
+      <ul class="season-roster" data-testid="season-four-sprites">
+        {sprites.map((sprite) => (
+          <li>
+            <div class="season-roster__well">
+              <img
+                src={sprite.featuredUrl}
+                srcset={`${sprite.thumbUrl} 160w, ${sprite.featuredUrl} 256w`}
+                sizes="56px"
+                width="56"
+                height="56"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <span>{sprite.name}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
+
+    <article class="rounded-2xl border border-border bg-glass/70 p-5 backdrop-blur-sm sm:p-6">
+      <p class="text-xs font-bold uppercase tracking-[0.16em] text-accent">Override</p>
+      <h3 class="mt-2 text-xl font-black text-ink">Lobby Hacks, ready to hand</h3>
+      <p class="mt-2 text-sm text-muted">
+        The Override tab is a running list of this season’s Lobby Hacks. Mark a code used when you’ve redeemed it — and when a hack unlocks a Sprite, jump straight to that Collectible.
+      </p>
+      <figure class="season-override-phone mx-auto mt-5">
+        <div class="phone-bezel">
+          <Image
+            src={overrideShot}
+            alt="Override tab listing this season’s Lobby Hacks"
+            widths={[240, 360, 480, 720]}
+            sizes="(max-width: 768px) 58vw, 220px"
+            quality={75}
+            class="phone-screen"
+            loading="lazy"
+          />
+        </div>
+      </figure>
+    </article>
+  </div>
+</section>

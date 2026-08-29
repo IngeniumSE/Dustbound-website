@@ -1,0 +1,111 @@
+---
+const endpoint = 'https://formspree.io/f/xaewepjp';
+---
+<form
+  id="support-form"
+  class="support-form mt-8 space-y-4"
+  action={endpoint}
+  method="POST"
+  data-testid="support-form"
+>
+  <input type="hidden" name="_subject" value="Dustbound support" />
+
+  <div>
+    <label class="mb-1.5 block text-sm font-semibold text-ink" for="support-name">
+      Name <span class="font-normal text-muted">(optional)</span>
+    </label>
+    <input
+      id="support-name"
+      class="w-full rounded-2xl border border-border bg-panel/70 px-4 py-3 text-ink placeholder:text-muted/70"
+      type="text"
+      name="name"
+      autocomplete="name"
+      placeholder="Your name"
+    />
+  </div>
+
+  <div>
+    <label class="mb-1.5 block text-sm font-semibold text-ink" for="support-email">Email</label>
+    <input
+      id="support-email"
+      class="w-full rounded-2xl border border-border bg-panel/70 px-4 py-3 text-ink placeholder:text-muted/70"
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      placeholder="you@email.com"
+      data-testid="support-email-field"
+    />
+  </div>
+
+  <div>
+    <label class="mb-1.5 block text-sm font-semibold text-ink" for="support-message">Message</label>
+    <textarea
+      id="support-message"
+      class="w-full min-h-36 resize-y rounded-2xl border border-border bg-panel/70 px-4 py-3 text-ink placeholder:text-muted/70"
+      name="message"
+      required
+      rows="6"
+      placeholder="How can we help?"
+      data-testid="support-message"
+    ></textarea>
+  </div>
+
+  <input
+    type="text"
+    name="_gotcha"
+    class="absolute -left-[9999px] h-0 w-0 opacity-0"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+    data-testid="honeypot"
+  />
+
+  <button
+    type="submit"
+    class="support-form__submit inline-flex min-h-11 items-center justify-center rounded-2xl bg-accent px-5 py-3 text-sm font-extrabold hover:brightness-110 disabled:opacity-60"
+    data-fs-submit-btn
+    data-testid="support-submit"
+  >
+    Send message
+  </button>
+</form>
+
+<p id="support-thanks" class="mt-4 hidden text-sm font-semibold text-lime" data-testid="support-thanks" role="status">
+  Thanks — we’ll get back to you.
+</p>
+<p id="support-error" class="mt-4 hidden text-sm font-semibold text-red-300" data-testid="support-error" role="alert"></p>
+
+<script>
+  const form = document.getElementById('support-form');
+  const thanks = document.getElementById('support-thanks');
+  const errorEl = document.getElementById('support-error');
+  const btn = form?.querySelector('[data-fs-submit-btn]');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement)) return;
+    errorEl?.classList.add('hidden');
+    thanks?.classList.add('hidden');
+    if (btn instanceof HTMLButtonElement) btn.disabled = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error('Something went wrong — try again in a moment.');
+      thanks?.classList.remove('hidden');
+      form.reset();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Something went wrong.';
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+      }
+    } finally {
+      if (btn instanceof HTMLButtonElement) btn.disabled = false;
+    }
+  });
+</script>
