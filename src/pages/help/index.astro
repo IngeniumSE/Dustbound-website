@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import StoreBadges from '../../components/StoreBadges.astro';
 ---
 <Layout
   title="Help request"
@@ -7,12 +8,9 @@ import Layout from '../../layouts/Layout.astro';
   robots="noindex, nofollow"
 >
   <article class="mx-auto max-w-md px-4 py-10 sm:px-6" data-testid="help-page" data-help-landing>
-    <p
-      class="inline-block rounded-full border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent"
-      data-testid="coming-soon"
-    >
-      Coming soon · Android
-    </p>
+    <div class="mb-4">
+      <StoreBadges size="compact" />
+    </div>
 
     <h1 class="mt-4 text-3xl font-black tracking-tight text-ink">Help request</h1>
 

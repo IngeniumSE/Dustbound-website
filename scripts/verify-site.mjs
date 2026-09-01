@@ -169,6 +169,11 @@ assert.match(help, /<title>Help request · Dustbound<\/title>/i, 'help: document
 assert.match(help, /property="og:title"[^>]*content="Help request · Dustbound"/i, 'help: og:title');
 assert.match(help, /Open in Dustbound/, 'help: Open in Dustbound');
 assert.match(help, /Help request/, 'help: Help request');
+assert.match(help, /play\.google\.com\/store\/apps/, 'help: Play Store URL');
+assert.match(help, /apps\.apple\.com\/us\/app\/dustbound\/id6801057151/, 'help: App Store URL');
+assert.match(help, /Get it on Google Play/, 'help: Google Play badge');
+assert.match(help, /Download on the App Store/, 'help: App Store badge');
+assert.doesNotMatch(help, /Coming soon/i, 'help: no Coming soon');
 assert.match(help, /name="robots"[^>]*content="[^"]*noindex/i, 'help: robots noindex');
 assert.doesNotMatch(help, /pairing-api|workers\.dev/i, 'help: no pairing-api host');
 assert.doesNotMatch(help, /Reputation/, 'help: no Reputation');

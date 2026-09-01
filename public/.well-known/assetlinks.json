@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.ingeniumsoftware.dustbound",
+      "sha256_cert_fingerprints": [
+        "C1:73:C0:9B:8D:04:CB:72:A3:8E:05:04:FE:FE:1C:B0:65:69:77:40:C4:F1:5C:B4:A2:66:14:B7:AB:E9:E9:B6",
+        "06:9F:3F:31:B9:8A:E0:FB:2C:44:22:0D:C7:FD:49:30:76:C4:9A:BE:AD:4A:68:C2:59:48:83:B1:EF:61:24:4B"
+      ]
+    }
+  }
+]

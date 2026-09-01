@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["22NRBLK8D4.dev.ingeniumsoftware.dustbound"],
+        "components": [
+          { "/": "/help" },
+          { "/": "/help/*" }
+        ]
+      }
+    ]
+  }
+}
