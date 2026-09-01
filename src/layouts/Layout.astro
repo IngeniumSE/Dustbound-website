@@ -10,6 +10,8 @@ interface Props {
   image?: string;
   /** Extra JSON-LD objects merged into the page graph (WebSite is always included). */
   schema?: Record<string, unknown> | Record<string, unknown>[];
+  /** Override the default robots meta (e.g. noindex on unsigned Help URLs). */
+  robots?: string;
 }
 
 const {
@@ -17,6 +19,7 @@ const {
   description = 'Local checklist for Sprite collectibles — track Collected and Mastered offline on Android.',
   image = '/og.jpg',
   schema,
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
 } = Astro.props;
 
 const siteDescription =
@@ -64,7 +67,7 @@ const jsonLd = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#0a1a14" />
     <meta name="color-scheme" content="dark" />
     <meta name="generator" content={Astro.generator} />

@@ -10,6 +10,10 @@ export default defineConfig({
   output: 'static',
   integrations: [
     sitemap({
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return pathname !== '/help' && pathname !== '/help/';
+      },
       namespaces: {
         news: false,
         xhtml: false,

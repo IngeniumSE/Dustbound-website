@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout
+  title="Help request"
+  description="Help request in Dustbound."
+  robots="noindex, nofollow"
+>
+  <article class="mx-auto max-w-md px-4 py-10 sm:px-6" data-testid="help-page" data-help-landing>
+    <p
+      class="inline-block rounded-full border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent"
+      data-testid="coming-soon"
+    >
+      Coming soon · Android
+    </p>
+
+    <h1 class="mt-4 text-3xl font-black tracking-tight text-ink">Help request</h1>
+
+    <div class="mt-8 space-y-6" data-help-preview hidden>
+      <p class="text-lg font-semibold text-ink" data-help-name hidden></p>
+
+      <div class="flex flex-col items-start gap-3" data-help-art-block hidden>
+        <div class="help-art-well" data-help-art hidden></div>
+        <p class="text-base font-bold text-ink" data-help-collectible hidden></p>
+      </div>
+
+      <section data-help-code-block hidden aria-labelledby="help-code-heading">
+        <h2 id="help-code-heading" class="text-xs font-bold uppercase tracking-[0.16em] text-accent">
+          Help code
+        </h2>
+        <p
+          class="mt-2 font-mono text-xl font-semibold tracking-wide text-ink"
+          data-help-code
+        ></p>
+      </section>
+
+      <a
+        class="help-open inline-flex min-h-11 min-w-11 items-center justify-center rounded-2xl bg-accent px-5 py-3 text-sm font-extrabold no-underline hover:brightness-110 hover:no-underline"
+        data-help-open
+        hidden
+      >
+        Open in Dustbound
+      </a>
+    </div>
+  </article>
+</Layout>
+
+<script>
+  import { hydrateHelpLanding } from '../../lib/help-landing';
+  hydrateHelpLanding();
+</script>

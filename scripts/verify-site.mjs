@@ -118,4 +118,24 @@ assert.doesNotMatch(hero, /Fortnite|Override/i, 'hero: no Fortnite/Override mark
 assert.doesNotMatch(index, /Fortnite|Override/i, 'landing: no Fortnite/Override marks (incl. Events)');
 assert.match(index, /not affiliated with[\s\S]*Epic Games/i, 'landing: unofficial Epic disclaimer');
 
+const help = read('help/index.html');
+assertSingleChrome(help, 'help');
+assert.equal(countTag(help, 'header'), 1, 'help: exactly one <header>');
+assert.match(help, /<title>Help request · Dustbound<\/title>/i, 'help: document title');
+assert.match(help, /property="og:title"[^>]*content="Help request · Dustbound"/i, 'help: og:title');
+assert.match(help, /Open in Dustbound/, 'help: Open in Dustbound');
+assert.match(help, /Help request/, 'help: Help request');
+assert.match(help, /name="robots"[^>]*content="[^"]*noindex/i, 'help: robots noindex');
+assert.doesNotMatch(help, /pairing-api|workers\.dev/i, 'help: no pairing-api host');
+assert.doesNotMatch(help, /Reputation/, 'help: no Reputation');
+assert.doesNotMatch(help, /Fortnite|Override/i, 'help: no Fortnite/Override marks');
+assert.match(help, /not affiliated with[\s\S]*Epic Games/i, 'help: unofficial Epic disclaimer');
+
+const assetlinks = read('.well-known/assetlinks.json');
+assert.match(assetlinks, /dev\.ingeniumsoftware\.dustbound/, 'assetlinks: package');
+const aasa = read('.well-known/apple-app-site-association');
+assert.match(aasa, /\/help/, 'aasa: /help');
+
+assert.doesNotMatch(sitemap, /https:\/\/dustbound\.app\/help\/?/, 'seo: sitemap excludes /help/');
+
 console.log('verify-site: ok');
