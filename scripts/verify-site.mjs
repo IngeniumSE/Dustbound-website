@@ -15,26 +15,61 @@ function read(rel) {
 assert.ok(fs.existsSync(dist), 'dist/ missing — run npm run build first');
 
 const index = read('index.html');
-assert.match(index, /Coming soon/i, 'landing: Coming soon');
-assert.match(index, /interest-form|formspree\.io\/f\/xaewepjp/i, 'landing: Formspree form');
-assert.match(index, /name="_gotcha"/, 'landing: honeypot');
-assert.match(index, /name="email"/, 'landing: email field');
+assert.match(index, /Available now/i, 'landing: Available now');
+assert.doesNotMatch(index, /Coming soon/i, 'landing: no Coming soon');
+assert.doesNotMatch(index, /formspree\.io|interest-form|interest-signup/i, 'landing: signup form removed');
+assert.doesNotMatch(index, /name="_gotcha"/, 'landing: no honeypot');
+assert.match(index, /data-testid="store-badges"/, 'landing: store badges');
+assert.match(index, /Get it on Google Play/, 'landing: Google Play badge');
+assert.match(index, /Download on the App Store/, 'landing: App Store badge');
+assert.match(index, /play\.google\.com\/store\/apps/, 'landing: Play Store URL');
+assert.match(index, /apps\.apple\.com\/us\/app\/dustbound\/id6801057151/, 'landing: App Store URL');
+assert.match(index, /href="\/#get-the-app"/, 'landing: Get the app nav');
+assert.match(index, /data-store-pref/, 'landing: store platform detection');
 assert.match(index, /unofficial fan companion/i, 'landing: unofficial disclaimer');
-assert.match(index, /Trading or Indexing/i, 'landing: Trading or Indexing');
+assert.match(index, /Trading or indexing/i, 'landing: Trading or indexing');
 assert.match(index, /Pairing/i, 'landing: Pairing callout');
 assert.match(index, /href="\/privacy\/"/, 'landing: privacy link');
 assert.match(index, /href="\/support\/"/, 'landing: support link');
 assert.match(index, /href="\/cookies\/"/, 'landing: cookies link');
 assert.match(index, /data-testid="brand-icon"|brand\/app-icon/i, 'landing: brand icon');
-assert.match(index, /data-testid="app-showcase"|Inside Dustbound/i, 'landing: app showcase');
+assert.match(index, /data-testid="app-showcase"|What it does/i, 'landing: app showcase');
 assert.match(index, /data-testid="sprite-constellation"|sprite-orb/i, 'landing: sprite constellation');
-assert.match(index, /screenshots\/checklist|Track Collected/i, 'landing: checklist screenshot');
-assert.match(index, /data-testid="upcoming"|Coming up/i, 'landing: upcoming roadmap');
-assert.match(index, /data-icon="sprites"/i, 'landing: sprites upcoming icon');
-assert.match(index, /data-icon="achievements"/i, 'landing: achievements upcoming icon');
-assert.match(index, /data-icon="pairing"/i, 'landing: pairing upcoming icon');
+assert.match(index, /Track Collected/i, 'landing: checklist feature');
+assert.match(index, /Trade & index|Pairing/i, 'landing: pairing feature');
+assert.doesNotMatch(index, /Coming up/i, 'landing: Coming up removed');
+assert.match(index, /data-testid="season-four"|New in Season 4/i, 'landing: Season 4');
+assert.match(index, /Klombo|Storm Scout/i, 'landing: Season 4 sprites');
+assert.match(
+  index,
+  /sprites\/c7s4\/klombo\/klombo\.f\.png/,
+  'landing: Season 4 catalog base art',
+);
+assert.match(
+  index,
+  /sprites\/c7s4\/storm_scout\/storm_scout\.f\.png/,
+  'landing: Storm Scout catalog art',
+);
+assert.match(index, /Lobby Hacks/i, 'landing: Lobby Hacks');
+assert.match(index, /Override/i, 'landing: Override tab');
+assert.doesNotMatch(index, /matthewabbottdev/i, 'landing: no Epic username');
 assert.match(index, /data-testid="events-section"/i, 'landing: events section');
 assert.match(index, /data-testid="events-list"|data-testid="events-empty"/i, 'landing: events list or empty');
+
+const astroAssets = path.join(dist, '_astro');
+assert.ok(fs.existsSync(astroAssets), 'events: dist/_astro missing');
+const bundledJs = fs
+  .readdirSync(astroAssets)
+  .filter((name) => name.endsWith('.js'))
+  .map((name) => fs.readFileSync(path.join(astroAssets, name), 'utf8'))
+  .join('\n');
+assert.match(
+  bundledJs,
+  /ingeniumse\.github\.io\/Dustbound-catalog\/v1\/catalog\.json/,
+  'events: catalog feed URL',
+);
+assert.match(bundledJs, /sprites\//, 'events: catalog sprite art path');
+assert.match(bundledJs, /\.f\.png/, 'events: featured sprite art suffix');
 
 // Social / Open Graph + Twitter cards
 assert.ok(fs.existsSync(path.join(dist, 'og.jpg')), 'social: og.jpg in dist');
@@ -88,9 +123,13 @@ assertSingleChrome(index, 'landing');
 const privacy = read('privacy/index.html');
 assertSingleChrome(privacy, 'privacy');
 assert.equal(countTag(privacy, 'header'), 1, 'privacy: exactly one <header>');
-assert.match(privacy, /data-testid="privacy-app"|<h2[^>]*>App<\/h2>/i, 'privacy: App section');
-assert.match(privacy, /data-testid="privacy-website"|<h2[^>]*>Website<\/h2>/i, 'privacy: Website section');
-assert.match(privacy, /Formspree/i, 'privacy: Formspree');
+assert.match(privacy, /data-testid="privacy-app"|In short/i, 'privacy: summary');
+assert.match(privacy, /data-testid="privacy-pairing"|Pairing/i, 'privacy: Pairing section');
+assert.match(privacy, /Epic username/i, 'privacy: Epic username');
+assert.match(privacy, /data-testid="privacy-website"|This website/i, 'privacy: Website section');
+assert.match(privacy, /no signup list or newsletter/i, 'privacy: no signup list');
+assert.match(privacy, /Formspree/i, 'privacy: Formspree named for Support');
+assert.match(privacy, /href="\/support\/"/, 'privacy: Support link');
 assert.match(privacy, /privacy@ingeniumsoftware\.dev/, 'privacy: contact');
 assert.equal(
   (privacy.match(/unofficial fan companion/gi) || []).length,
@@ -103,7 +142,12 @@ assert.match(privacy, /property="og:title"[^>]*content="Privacy · Dustbound"/i,
 const support = read('support/index.html');
 assertSingleChrome(support, 'support');
 assert.equal(countTag(support, 'header'), 1, 'support: exactly one <header>');
-assert.match(support, /support@ingeniumsoftware\.dev/, 'support: email');
+assert.match(support, /formspree\.io\/f\/xaewepjp/, 'support: Formspree endpoint');
+assert.match(support, /data-testid="support-form"/, 'support: form');
+assert.match(support, /name="email"/, 'support: email field');
+assert.match(support, /name="message"/, 'support: message field');
+assert.match(support, /name="_gotcha"/, 'support: honeypot');
+assert.match(support, /support@ingeniumsoftware\.dev/, 'support: email fallback');
 assert.match(support, /property="og:title"[^>]*content="Support · Dustbound"/i, 'support: og:title');
 
 const cookies = read('cookies/index.html');
@@ -115,7 +159,7 @@ assert.match(cookies, /does not use analytics/i, 'cookies: no analytics');
 // Branding: no Fortnite/Override product marks on the landing (disclaimer may name Epic)
 const hero = index.match(/data-testid="hero"[\s\S]*?<\/header>/i)?.[0] ?? '';
 assert.doesNotMatch(hero, /Fortnite|Override/i, 'hero: no Fortnite/Override marks');
-assert.doesNotMatch(index, /Fortnite|Override/i, 'landing: no Fortnite/Override marks (incl. Events)');
+assert.doesNotMatch(index, /Fortnite/i, 'landing: no Fortnite marks (incl. Events)');
 assert.match(index, /not affiliated with[\s\S]*Epic Games/i, 'landing: unofficial Epic disclaimer');
 
 const help = read('help/index.html');

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import '../styles/global.css';
 import appIcon from '../assets/brand/app-icon.png';
+import StoreBadges from '../components/StoreBadges.astro';
 
 interface Props {
   title?: string;
@@ -16,14 +17,14 @@ interface Props {
 
 const {
   title = 'Dustbound',
-  description = 'Local checklist for Sprite collectibles — track Collected and Mastered offline on Android.',
+  description = 'Local checklist for Sprite collectibles — track Collected and Mastered offline on iOS and Android.',
   image = '/og.jpg',
   schema,
   robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
 } = Astro.props;
 
 const siteDescription =
-  'Local checklist for Sprite collectibles — track Collected and Mastered offline on Android.';
+  'Local checklist for Sprite collectibles — track Collected and Mastered offline on iOS and Android.';
 
 const pageTitle =
   title === 'Dustbound'
@@ -65,6 +66,23 @@ const jsonLd = {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      (function () {
+        var pref = 'desktop';
+        try {
+          var platform = (navigator.userAgentData && navigator.userAgentData.platform) || '';
+          var ua = navigator.userAgent || '';
+          var isiOS =
+            platform === 'iOS' ||
+            /iPhone|iPad|iPod/i.test(ua) ||
+            (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
+          var isAndroid = platform === 'Android' || /Android/i.test(ua);
+          if (isiOS) pref = 'apple';
+          else if (isAndroid) pref = 'google';
+        } catch (e) {}
+        document.documentElement.setAttribute('data-store-pref', pref);
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
@@ -124,10 +142,16 @@ const jsonLd = {
           />
           <span>Dustbound</span>
         </a>
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
+        <div class="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 text-sm text-muted">
           <a href="/privacy/" class="text-muted hover:text-accent">Privacy</a>
           <a href="/support/" class="text-muted hover:text-accent">Support</a>
           <a href="/cookies/" class="text-muted hover:text-accent">Cookies</a>
+          <a
+            href="/#get-the-app"
+            class="nav-get-app inline-flex min-h-11 items-center rounded-xl bg-accent px-3 py-2 text-sm font-extrabold no-underline hover:brightness-110 hover:no-underline"
+          >
+            Get the app
+          </a>
         </div>
       </nav>
     </header>
@@ -137,8 +161,9 @@ const jsonLd = {
     </main>
 
     <footer class="relative z-10 border-t border-border/60 bg-panel/90 px-4 py-8 sm:px-6">
-      <div class="mx-auto max-w-5xl space-y-3 text-sm text-muted">
+      <div class="mx-auto max-w-5xl space-y-4 text-sm text-muted">
         <p class="font-semibold text-ink">Dustbound</p>
+        <StoreBadges size="compact" />
         <div class="flex flex-wrap gap-x-5 gap-y-2">
           <a href="/privacy/" class="text-muted hover:text-accent">Privacy</a>
           <a href="/cookies/" class="text-muted hover:text-accent">Cookies</a>

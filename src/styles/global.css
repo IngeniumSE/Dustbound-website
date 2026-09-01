@@ -22,6 +22,10 @@ html {
   scroll-behavior: smooth;
 }
 
+#get-the-app {
+  scroll-margin-top: 5.5rem;
+}
+
 body {
   margin: 0;
   min-height: 100%;
@@ -42,7 +46,10 @@ a:hover {
 /* Unlayered `a { color }` beats Tailwind text-* on links — pin CTA ink. */
 a.help-open,
 a.help-open:hover,
-a.help-open:focus-visible {
+a.help-open:focus-visible,
+a.nav-get-app,
+a.nav-get-app:hover,
+.support-form__submit {
   color: var(--color-accent-ink);
   -webkit-text-fill-color: var(--color-accent-ink);
   text-decoration: none;
@@ -135,6 +142,170 @@ a.help-open:focus-visible {
   width: min(78vw, 280px);
 }
 
+.feature-carousel {
+  display: grid;
+  gap: 1rem;
+}
+
+.feature-carousel__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.feature-carousel__tab {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
+  background: color-mix(in srgb, var(--color-glass) 70%, transparent);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.feature-carousel__tab.is-active,
+.feature-carousel__tab[aria-selected='true'] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.feature-carousel__stage {
+  display: grid;
+  grid-template-columns: 1fr auto auto 1fr;
+  grid-template-areas:
+    'track track track track'
+    '. prev next .';
+  align-items: center;
+  gap: 0.65rem 0.45rem;
+}
+
+.feature-carousel__track {
+  grid-area: track;
+  display: flex;
+  gap: 0.85rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 0.35rem 0.15rem 0.15rem;
+}
+
+.feature-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.feature-carousel__slide {
+  flex: 0 0 min(86%, 22rem);
+  scroll-snap-align: start;
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+  padding: 1rem 0.85rem 1.15rem;
+  border-radius: 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, white 12%);
+  background: color-mix(in srgb, var(--color-glass) 82%, transparent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+.feature-carousel__phone {
+  width: min(58vw, 220px);
+  margin: 0;
+}
+
+.feature-carousel__copy {
+  text-align: center;
+  max-width: 22rem;
+}
+
+.feature-carousel__arrow {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+  background: color-mix(in srgb, var(--color-panel) 82%, transparent);
+  color: var(--color-accent);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.feature-carousel__arrow svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.feature-carousel__arrow--prev {
+  grid-area: prev;
+}
+
+.feature-carousel__arrow--next {
+  grid-area: next;
+}
+
+.feature-carousel__arrow:hover,
+.feature-carousel__arrow:focus-visible {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+@media (min-width: 768px) {
+  .feature-carousel__stage {
+    display: block;
+    position: relative;
+  }
+
+  .feature-carousel__arrow {
+    position: absolute;
+    top: 42%;
+    z-index: 2;
+  }
+
+  .feature-carousel__arrow--prev {
+    left: 0.25rem;
+  }
+
+  .feature-carousel__arrow--next {
+    right: 0.25rem;
+  }
+
+  .feature-carousel__slide {
+    flex-basis: 100%;
+    grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+    align-items: center;
+    justify-items: start;
+    gap: 2rem;
+    padding: 1.4rem 3.4rem 1.5rem 1.6rem;
+  }
+
+  .feature-carousel__phone {
+    width: min(42vw, 240px);
+  }
+
+  .feature-carousel__copy {
+    text-align: left;
+    max-width: 28rem;
+  }
+
+  .feature-carousel__arrow {
+    display: grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-carousel__track {
+    scroll-behavior: auto;
+  }
+}
+
 .phone-frame--side {
   width: min(58vw, 220px);
 }
@@ -167,6 +338,52 @@ a.help-open:focus-visible {
   object-fit: contain;
 }
 
+.season-override-phone {
+  width: min(58vw, 220px);
+}
+
+.season-roster {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
+  gap: 0.85rem 0.5rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.season-roster li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.season-roster__well {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 0.85rem;
+  background: #163830;
+}
+
+.season-roster__well img {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: contain;
+}
+
+.season-roster span {
+  max-width: 100%;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+
 /* Coming-up roadmap icons */
 .upcoming-icon {
   display: grid;
@@ -180,6 +397,138 @@ a.help-open:focus-visible {
   background: color-mix(in srgb, var(--color-glass) 75%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
   box-shadow: 0 0 16px color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+
+/* Store badges — preferred store is first + outlined; both always visible */
+.store-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.store-badges--compact {
+  justify-content: flex-start;
+}
+
+@media (min-width: 640px) {
+  .store-badges:not(.store-badges--compact) {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 639px) {
+  .store-badges:not(.store-badges--compact) .store-badge {
+    width: 100%;
+    max-width: 18rem;
+  }
+
+  .store-badges:not(.store-badges--compact) .store-badge__lockup {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.store-badge {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+}
+
+.store-badge:hover {
+  text-decoration: none;
+}
+
+.store-badge__lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 3rem;
+  min-width: 10.5rem;
+  padding: 0.4rem 0.95rem 0.4rem 0.7rem;
+  border-radius: 0.75rem;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.store-badges--compact .store-badge__lockup {
+  min-height: 2.75rem;
+  min-width: 9.5rem;
+  padding: 0.3rem 0.8rem 0.3rem 0.55rem;
+  gap: 0.5rem;
+}
+
+.store-badge:hover .store-badge__lockup,
+.store-badge:focus-visible .store-badge__lockup {
+  filter: brightness(1.12);
+  border-color: color-mix(in srgb, var(--color-accent) 70%, white);
+}
+
+.store-badge__icon {
+  width: 1.55rem;
+  height: 1.55rem;
+  flex-shrink: 0;
+}
+
+.store-badge__icon--apple {
+  width: 1.35rem;
+  height: 1.55rem;
+  color: #fff;
+}
+
+.store-badges--compact .store-badge__icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.store-badge__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.05;
+}
+
+.store-badge__kicker {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.store-badge__name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.store-badges--compact .store-badge__name {
+  font-size: 0.95rem;
+}
+
+html[data-store-pref="apple"] .store-badge[data-store="apple"] {
+  order: -1;
+}
+
+html[data-store-pref="google"] .store-badge[data-store="google"] .store-badge__lockup,
+html[data-store-pref="apple"] .store-badge[data-store="apple"] .store-badge__lockup {
+  border-color: var(--color-accent);
+  box-shadow:
+    0 0 0 2px var(--color-accent),
+    0 0 22px color-mix(in srgb, var(--color-accent) 32%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .store-badge__lockup {
+    transition: none;
+  }
 }
 
 @keyframes brand-float {
@@ -211,6 +560,59 @@ a.help-open:focus-visible {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Event attribution chips — same 52px well + wrap as the app Events list. */
+.event-art {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event-art-chip {
+  display: flex;
+  width: 4.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.event-art-well {
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #163830;
+}
+
+.event-art-img {
+  width: 3.25rem;
+  height: 3.25rem;
+  object-fit: contain;
+}
+
+.event-art-glyph {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.event-art-caption {
+  display: -webkit-box;
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-align: center;
+  font-size: 0.625rem;
+  line-height: 1.25;
+  color: var(--color-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

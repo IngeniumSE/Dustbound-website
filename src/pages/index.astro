@@ -1,59 +1,54 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-import InterestForm from '../components/InterestForm.astro';
+import StoreBadges from '../components/StoreBadges.astro';
 import SpriteConstellation from '../components/SpriteConstellation.astro';
 import AppShowcase from '../components/AppShowcase.astro';
+import SeasonFour from '../components/SeasonFour.astro';
 import EventsSection from '../components/EventsSection.astro';
-import UpcomingCardIcon from '../components/UpcomingCardIcon.astro';
 import gardenBg from '../assets/garden_pond_bg.jpg';
 import appIcon from '../assets/brand/app-icon.png';
+import { APP_STORE_URL, GOOGLE_PLAY_URL } from '../lib/stores';
 
-const beats = [
-  'Check off Collectibles as Collected or Mastered',
-  'Works offline — local-first on your device',
-  'Season-aware catalog stays current when you’re online',
-  'Earn fun Achievements as you collect and master',
+const appDescription =
+  'Local checklist for Sprite collectibles — track Collected and Mastered offline on iOS and Android.';
+
+const appSchema = [
+  {
+    '@type': 'MobileApplication',
+    '@id': 'https://dustbound.app/#app-android',
+    name: 'Dustbound',
+    description: appDescription,
+    url: 'https://dustbound.app/',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'ANDROID',
+    installUrl: GOOGLE_PLAY_URL,
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      priceCurrency: 'USD',
+    },
+    image: 'https://dustbound.app/og.jpg',
+    author: { '@id': 'https://dustbound.app/#organization' },
+  },
+  {
+    '@type': 'MobileApplication',
+    '@id': 'https://dustbound.app/#app-ios',
+    name: 'Dustbound',
+    description: appDescription,
+    url: 'https://dustbound.app/',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'iOS',
+    installUrl: APP_STORE_URL,
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      priceCurrency: 'USD',
+    },
+    image: 'https://dustbound.app/og.jpg',
+    author: { '@id': 'https://dustbound.app/#organization' },
+  },
 ];
-
-const upcoming = [
-  {
-    kind: 'sprites' as const,
-    kicker: 'Next season',
-    title: 'New Sprites to track',
-    body: 'Checklist support for the next season of Sprites — new Sprites to collect and master.',
-  },
-  {
-    kind: 'achievements' as const,
-    kicker: 'Pipeline',
-    title: 'More Achievements',
-    body: 'More Achievements to earn as you collect and master — coming later.',
-  },
-  {
-    kind: 'pairing' as const,
-    kicker: 'Coming later',
-    title: 'Trading or Indexing',
-    body: 'Help each other obtain Collectibles. In-app, we call this Pairing.',
-  },
-];
-
-const appSchema = {
-  '@type': 'MobileApplication',
-  '@id': 'https://dustbound.app/#app',
-  name: 'Dustbound',
-  description:
-    'Local checklist for Sprite collectibles — track Collected and Mastered offline on Android.',
-  url: 'https://dustbound.app/',
-  applicationCategory: 'UtilitiesApplication',
-  operatingSystem: 'Android',
-  offers: {
-    '@type': 'Offer',
-    availability: 'https://schema.org/PreOrder',
-    priceCurrency: 'USD',
-  },
-  image: 'https://dustbound.app/og.jpg',
-  author: { '@id': 'https://dustbound.app/#organization' },
-};
 ---
 <Layout schema={appSchema}>
   <div class="relative isolate overflow-hidden">
@@ -90,64 +85,32 @@ const appSchema = {
             />
           </div>
           <div class="max-w-xl space-y-3">
-            <p class="inline-block rounded-full border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent" data-testid="coming-soon">
-              Coming soon · Android
+            <p class="inline-block rounded-full border border-accent px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent" data-testid="available-now">
+              Available now · iOS & Android
             </p>
             <h1 class="text-4xl font-black tracking-tight text-ink sm:text-5xl md:text-6xl">Dustbound</h1>
             <p class="text-lg font-semibold text-ink sm:text-xl" data-testid="thesis">
-              Local checklist for Sprite collectibles — track Collected and Mastered offline.
+              Local checklist for Sprite collectibles — track Collected and Mastered, and Pair to trade or index.
             </p>
+            <div id="get-the-app" class="pt-2 sm:pt-1">
+              <StoreBadges />
+            </div>
             <p class="text-sm text-muted" data-testid="soft-price">
-              Coming soon on Google Play — a one-time purchase, priced to stay low.
+              A one-time purchase on Google Play and the App Store — priced to stay low.
             </p>
           </div>
         </div>
       </header>
 
-      <!-- Interest signup -->
-      <section class="mb-10 rounded-2xl border border-border bg-glass/80 p-4 backdrop-blur-md sm:p-5" aria-labelledby="notify-heading" data-testid="interest-signup">
-        <h2 id="notify-heading" class="mb-1 text-base font-bold text-ink">Get notified when Dustbound is available</h2>
-        <p class="mb-3 text-sm text-muted">Email only — we’ll write when early release is ready.</p>
-        <InterestForm />
-      </section>
-
       <div class="mb-12">
         <SpriteConstellation />
       </div>
 
-      <!-- What it does -->
-      <section class="mb-14" aria-labelledby="does-heading">
-        <h2 class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="does-heading">What it does</h2>
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-testid="what-it-does">
-          {beats.map((beat, i) => (
-            <div class="rounded-2xl border border-border bg-section/80 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40">
-              <div class="mb-2 text-xs font-extrabold tracking-widest text-accent">0{i + 1}</div>
-              <p class="text-sm text-muted">{beat}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <AppShowcase />
 
-      <EventsSection />
+      <SeasonFour />
 
-      <!-- Upcoming roadmap -->
-      <section aria-labelledby="upcoming-heading">
-        <h2 class="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-accent" id="upcoming-heading">Coming up</h2>
-        <div class="grid grid-cols-1 gap-3 md:grid-cols-3" data-testid="upcoming">
-          {upcoming.map((item) => (
-            <article class="rounded-2xl border border-border bg-glass/70 p-4 backdrop-blur-sm transition-colors duration-200 hover:border-accent/40">
-              <div class="mb-3 flex items-start justify-between gap-3">
-                <p class="text-xs font-bold uppercase tracking-widest text-accent">{item.kicker}</p>
-                <UpcomingCardIcon kind={item.kind} />
-              </div>
-              <h3 class="text-lg font-bold text-ink">{item.title}</h3>
-              <p class="mt-2 text-sm text-muted">{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <EventsSection />
     </div>
   </div>
 </Layout>

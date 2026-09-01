@@ -1,17 +1,21 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import SupportForm from '../../components/SupportForm.astro';
 ---
 <Layout
   title="Support"
-  description="Get help with Dustbound — email support@ingeniumsoftware.dev for app questions, or privacy@ingeniumsoftware.dev for privacy requests."
+  description="Get help with Dustbound — send a message and we’ll get back to you."
 >
   <article class="mx-auto max-w-3xl px-4 py-10 sm:px-6" data-testid="support-page">
     <h1 class="text-3xl font-black text-ink">Support</h1>
     <p class="mt-4 text-muted">
-      For help with Dustbound, email
-      <a href="mailto:support@ingeniumsoftware.dev" data-testid="support-email">support@ingeniumsoftware.dev</a>.
+      Questions about Dustbound? Send a message and we’ll get back to you.
     </p>
-    <p class="mt-3 text-sm text-muted">
+
+    <SupportForm />
+
+    <p class="mt-8 text-sm text-muted">
+      You can also email <a href="mailto:support@ingeniumsoftware.dev" data-testid="support-email">support@ingeniumsoftware.dev</a>.
       For privacy requests, use <a href="mailto:privacy@ingeniumsoftware.dev">privacy@ingeniumsoftware.dev</a>
       or see the <a href="/privacy/">Privacy policy</a>.
     </p>
