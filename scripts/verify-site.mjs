@@ -24,6 +24,7 @@ assert.match(index, /Get it on Google Play/, 'landing: Google Play badge');
 assert.match(index, /Download on the App Store/, 'landing: App Store badge');
 assert.match(index, /play\.google\.com\/store\/apps/, 'landing: Play Store URL');
 assert.match(index, /apps\.apple\.com\/us\/app\/dustbound\/id6801057151/, 'landing: App Store URL');
+assert.match(index, /producthunt\.com\/products\/dustbound/, 'landing: Product Hunt review badge');
 assert.match(index, /href="\/#get-the-app"/, 'landing: Get the app nav');
 assert.match(index, /data-store-pref/, 'landing: store platform detection');
 assert.match(index, /unofficial fan companion/i, 'landing: unofficial disclaimer');

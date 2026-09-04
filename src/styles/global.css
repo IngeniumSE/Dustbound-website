@@ -440,6 +440,19 @@ a.nav-get-app:hover,
   text-decoration: none;
 }
 
+.store-badge--product-hunt img {
+  display: block;
+  width: 250px;
+  height: 54px;
+}
+
+@media (max-width: 639px) {
+  .store-badges:not(.store-badges--compact) .store-badge--product-hunt {
+    width: auto;
+    max-width: none;
+  }
+}
+
 .store-badge__lockup {
   display: flex;
   align-items: center;

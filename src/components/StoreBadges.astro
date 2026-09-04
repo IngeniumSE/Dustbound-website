@@ -1,5 +1,5 @@
 ---
-import { APP_STORE_URL, GOOGLE_PLAY_URL } from '../lib/stores';
+import { APP_STORE_URL, GOOGLE_PLAY_URL, PRODUCT_HUNT_BADGE_SRC, PRODUCT_HUNT_REVIEW_URL } from '../lib/stores';
 
 interface Props {
   size?: 'hero' | 'compact';
@@ -52,6 +52,24 @@ const compact = size === 'compact';
       </span>
     </span>
   </a>
+
+  {!compact && (
+    <a
+      class="store-badge store-badge--product-hunt"
+      data-store="product-hunt"
+      href={PRODUCT_HUNT_REVIEW_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Leave a review on Product Hunt"
+    >
+      <img
+        src={PRODUCT_HUNT_BADGE_SRC}
+        alt="Dustbound on Product Hunt"
+        width="250"
+        height="54"
+      />
+    </a>
+  )}
 </div>
 
 <script is:inline>
