@@ -12,7 +12,12 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         const { pathname } = new URL(page);
-        return pathname !== '/help' && pathname !== '/help/';
+        return (
+          pathname !== '/help' &&
+          pathname !== '/help/' &&
+          pathname !== '/collection' &&
+          pathname !== '/collection/'
+        );
       },
       namespaces: {
         news: false,

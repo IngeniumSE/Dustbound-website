@@ -1,20 +1,6 @@
 import { lookupCollectible } from './catalog-preview';
 import { tryParseHelpCode } from './help-code';
-
-function queryValue(search: string, key: string): string | null {
-  const params = new URLSearchParams(search);
-  const want = key.toLowerCase();
-  for (const [name, value] of params) {
-    if (name.toLowerCase() === want) {
-      return value;
-    }
-  }
-  return null;
-}
-
-function show(el: Element | null): void {
-  el?.removeAttribute('hidden');
-}
+import { queryValue, reveal } from './share-query';
 
 export async function hydrateHelpLanding(search = window.location.search): Promise<void> {
   const canonical = tryParseHelpCode(queryValue(search, 'code'));
@@ -31,16 +17,16 @@ export async function hydrateHelpLanding(search = window.location.search): Promi
     openEl.href = `dustbound://help/${canonical}`;
   }
 
-  show(document.querySelector('[data-help-preview]'));
-  show(document.querySelector('[data-help-code-block]'));
-  show(openEl);
+  reveal(document.querySelector('[data-help-preview]'));
+  reveal(document.querySelector('[data-help-code-block]'));
+  reveal(openEl);
 
   const rawName = queryValue(search, 'name')?.trim() ?? '';
   if (rawName) {
     const nameEl = document.querySelector('[data-help-name]');
     if (nameEl) {
       nameEl.textContent = rawName;
-      show(nameEl);
+      reveal(nameEl);
     }
   }
 
@@ -77,7 +63,7 @@ export async function hydrateHelpLanding(search = window.location.search): Promi
     };
     well.replaceChildren(img);
   }
-  show(well);
-  show(titleEl);
-  show(document.querySelector('[data-help-art-block]'));
+  reveal(well);
+  reveal(titleEl);
+  reveal(document.querySelector('[data-help-art-block]'));
 }

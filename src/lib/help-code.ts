@@ -1,6 +1,8 @@
 /**
- * Display-parse for Help codes. Banks and TryParse rules are a copy of
- * Dustbound.Core `HelpCodeGenerator`. Do not fetch banks from the Worker.
+ * Display-parse for Help codes and Collection codes. Banks and TryParse rules
+ * are a copy of Dustbound.Core `HelpCodeGenerator` and `CollectionCodeGenerator`.
+ * Collection words are the union of the three Help banks, any word in any
+ * position, exactly four tokens. Do not fetch banks from the Worker.
  * If Core banks change, update this copy.
  */
 
@@ -46,12 +48,7 @@ export function tryParseHelpCode(input: string | null | undefined): string | nul
     return null;
   }
 
-  const tokens = input
-    .trim()
-    .toLowerCase()
-    .split(/[. -]+/)
-    .filter((token) => token.length > 0);
-
+  const tokens = shareTokens(input);
   if (tokens.length !== 3) {
     return null;
   }
@@ -62,4 +59,29 @@ export function tryParseHelpCode(input: string | null | undefined): string | nul
   }
 
   return `${adjective}.${middle}.${noun}`;
+}
+
+/** Any Help-bank word. Collection codes are not position-locked the way Help codes are. */
+const COLLECTION_WORDS = new Set<string>([...ADJECTIVES, ...MIDDLES, ...NOUNS]);
+
+function shareTokens(input: string): string[] {
+  return input
+    .trim()
+    .toLowerCase()
+    .split(/[. -]+/)
+    .filter((token) => token.length > 0);
+}
+
+/** Canonical display and custom-scheme path, e.g. `quiet.tide.otter.brook`. */
+export function tryParseCollectionCode(input: string | null | undefined): string | null {
+  if (input == null || input.trim() === '') {
+    return null;
+  }
+
+  const tokens = shareTokens(input);
+  if (tokens.length !== 4 || tokens.some((token) => !COLLECTION_WORDS.has(token))) {
+    return null;
+  }
+
+  return tokens.join('.');
 }

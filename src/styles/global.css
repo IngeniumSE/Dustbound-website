@@ -47,6 +47,9 @@ a:hover {
 a.help-open,
 a.help-open:hover,
 a.help-open:focus-visible,
+a.collection-open,
+a.collection-open:hover,
+a.collection-open:focus-visible,
 a.nav-get-app,
 a.nav-get-app:hover,
 .support-form__submit {

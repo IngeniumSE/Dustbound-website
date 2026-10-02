@@ -1,0 +1,52 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StoreBadges from '../../components/StoreBadges.astro';
+---
+<Layout
+  title="Checklist compare"
+  description="Checklist compare in Dustbound."
+  robots="noindex, nofollow"
+>
+  <article
+    class="mx-auto max-w-md px-4 py-10 sm:px-6"
+    data-testid="collection-page"
+    data-collection-landing
+  >
+    <div class="mb-4">
+      <StoreBadges size="compact" />
+    </div>
+
+    <h1 class="mt-4 text-3xl font-black tracking-tight text-ink">Checklist compare</h1>
+    <p class="mt-3 text-muted">
+      A Collection code opens a Checklist compare in Dustbound.
+    </p>
+
+    <div class="mt-8 space-y-6" data-collection-preview hidden>
+      <section data-collection-code-block hidden aria-labelledby="collection-code-heading">
+        <h2
+          id="collection-code-heading"
+          class="text-xs font-bold uppercase tracking-[0.16em] text-accent"
+        >
+          Collection code
+        </h2>
+        <p
+          class="mt-2 font-mono text-xl font-semibold tracking-wide text-ink"
+          data-collection-code
+        ></p>
+      </section>
+
+      <a
+        class="collection-open inline-flex min-h-11 min-w-11 items-center justify-center rounded-2xl bg-accent px-5 py-3 text-sm font-extrabold no-underline hover:brightness-110 hover:no-underline"
+        data-collection-open
+        hidden
+      >
+        Open in Dustbound
+      </a>
+    </div>
+  </article>
+</Layout>
+
+<script>
+  import { hydrateCollectionLanding } from '../../lib/collection-landing';
+  hydrateCollectionLanding();
+</script>
