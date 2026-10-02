@@ -181,11 +181,70 @@ assert.doesNotMatch(help, /Reputation/, 'help: no Reputation');
 assert.doesNotMatch(help, /Fortnite|Override/i, 'help: no Fortnite/Override marks');
 assert.match(help, /not affiliated with[\s\S]*Epic Games/i, 'help: unofficial Epic disclaimer');
 
+const collection = read('collection/index.html');
+assertSingleChrome(collection, 'collection');
+assert.equal(countTag(collection, 'header'), 1, 'collection: exactly one <header>');
+assert.match(collection, /<title>Checklist compare · Dustbound<\/title>/i, 'collection: document title');
+assert.match(
+  collection,
+  /property="og:title"[^>]*content="Checklist compare · Dustbound"/i,
+  'collection: og:title',
+);
+assert.match(
+  collection,
+  /property="og:description"[^>]*content="Checklist compare in Dustbound\."/i,
+  'collection: og:description',
+);
+assert.match(
+  collection,
+  /rel="canonical"[^>]*href="https:\/\/dustbound\.app\/collection\/"/i,
+  'collection: canonical without query',
+);
+assert.match(collection, /Open in Dustbound/, 'collection: Open in Dustbound');
+assert.match(collection, /Checklist compare/, 'collection: Checklist compare');
+assert.match(collection, /Collection code/, 'collection: Collection code');
+assert.match(
+  collection,
+  /A Collection code opens a Checklist compare in Dustbound\./,
+  'collection: explains the code',
+);
+assert.match(collection, /play\.google\.com\/store\/apps/, 'collection: Play Store URL');
+assert.match(
+  collection,
+  /apps\.apple\.com\/us\/app\/dustbound\/id6801057151/,
+  'collection: App Store URL',
+);
+assert.match(collection, /Get it on Google Play/, 'collection: Google Play badge');
+assert.match(collection, /Download on the App Store/, 'collection: App Store badge');
+assert.doesNotMatch(collection, /Coming soon/i, 'collection: no Coming soon');
+assert.match(collection, /name="robots"[^>]*content="[^"]*noindex/i, 'collection: robots noindex');
+assert.doesNotMatch(collection, /pairing-api|workers\.dev|published-checklists/i, 'collection: no checklist API');
+assert.doesNotMatch(collection, /Reputation/, 'collection: no Reputation');
+const collectionArticle =
+  collection.match(/data-testid="collection-page"[\s\S]*?<\/article>/i)?.[0] ?? '';
+assert.doesNotMatch(collectionArticle, /Collected|Mastered/, 'collection: article shows no checklist marks');
+assert.doesNotMatch(collection, /Fortnite|Override/i, 'collection: no Fortnite/Override marks');
+assert.match(collection, /not affiliated with[\s\S]*Epic Games/i, 'collection: unofficial Epic disclaimer');
+assert.doesNotMatch(collection, /href="\/collection\/"/, 'collection: not in site nav');
+
 const assetlinks = read('.well-known/assetlinks.json');
 assert.match(assetlinks, /dev\.ingeniumsoftware\.dustbound/, 'assetlinks: package');
+const assetlinksJson = JSON.parse(assetlinks);
+assert.equal(assetlinksJson[0].target.package_name, 'dev.ingeniumsoftware.dustbound', 'assetlinks: package name');
 const aasa = read('.well-known/apple-app-site-association');
-assert.match(aasa, /\/help/, 'aasa: /help');
+assert.ok(!aasa.includes('<html'), 'aasa: not an HTML wrapper');
+const aasaJson = JSON.parse(aasa);
+const components = aasaJson.applinks.details[0].components.map((component) => component['/']);
+assert.ok(components.includes('/help'), 'aasa: /help');
+assert.ok(components.includes('/help/*'), 'aasa: /help/*');
+assert.ok(components.includes('/collection'), 'aasa: /collection');
+assert.ok(components.includes('/collection/*'), 'aasa: /collection/*');
+assert.match(bundledJs, /dustbound:\/\/collection\//, 'collection: custom scheme in bundle');
+assert.match(bundledJs, /dustbound:\/\/help\//, 'help: custom scheme in bundle');
 
 assert.doesNotMatch(sitemap, /https:\/\/dustbound\.app\/help\/?/, 'seo: sitemap excludes /help/');
+assert.doesNotMatch(sitemap, /https:\/\/dustbound\.app\/collection\/?/, 'seo: sitemap excludes /collection/');
+assert.match(read('robots.txt'), /Disallow:\s*\/help\//, 'seo: robots disallows /help/');
+assert.match(read('robots.txt'), /Disallow:\s*\/collection\//, 'seo: robots disallows /collection/');
 
 console.log('verify-site: ok');
